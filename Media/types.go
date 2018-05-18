@@ -86,7 +86,7 @@ type GetProfiles struct {
 }
 
 type GetProfilesResponse struct {
-	Profiles onvif.Profile
+	Profiles []onvif.Profile
 }
 
 type AddVideoEncoderConfiguration struct {
