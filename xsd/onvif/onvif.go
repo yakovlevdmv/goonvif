@@ -1213,6 +1213,7 @@ type UserExtension xsd.String
 
 type CapabilityCategory xsd.String
 
+//Capabilities of device
 type Capabilities struct {
 	Analytics AnalyticsCapabilities
 	Device    DeviceCapabilities
@@ -1223,12 +1224,14 @@ type Capabilities struct {
 	Extension CapabilitiesExtension
 }
 
+//AnalyticsCapabilities Check
 type AnalyticsCapabilities struct {
 	XAddr                  xsd.AnyURI
 	RuleSupport            xsd.Boolean
 	AnalyticsModuleSupport xsd.Boolean
 }
 
+//DeviceCapabilities Check
 type DeviceCapabilities struct {
 	XAddr     xsd.AnyURI
 	Network   NetworkCapabilities
@@ -1238,6 +1241,7 @@ type DeviceCapabilities struct {
 	Extension DeviceCapabilitiesExtension
 }
 
+//NetworkCapabilities Check
 type NetworkCapabilities struct {
 	IPFilter          xsd.Boolean
 	ZeroConfiguration xsd.Boolean
@@ -1246,13 +1250,16 @@ type NetworkCapabilities struct {
 	Extension         NetworkCapabilitiesExtension
 }
 
+//NetworkCapabilitiesExtension Check
 type NetworkCapabilitiesExtension struct {
 	Dot11Configuration xsd.Boolean
 	Extension          NetworkCapabilitiesExtension2
 }
 
+//NetworkCapabilitiesExtension2 Extension2
 type NetworkCapabilitiesExtension2 xsd.AnyType
 
+//SystemCapabilities check
 type SystemCapabilities struct {
 	DiscoveryResolve  xsd.Boolean
 	DiscoveryBye      xsd.Boolean
