@@ -13,8 +13,8 @@ import (
 	"github.com/beevik/etree"
 	"github.com/use-go/goonvif/device"
 	"github.com/use-go/goonvif/networking"
-	"github.com/yakovlevdmv/WS-Discovery"
-	"github.com/yakovlevdmv/gosoap"
+	"github.com/use-go/ws-discovery"
+	"github.com/use-go/gosoap"
 )
 
 //Xlmns XML Scheam
@@ -99,7 +99,7 @@ func readResponse(resp *http.Response) string {
 //GetAvailableDevicesAtSpecificEthernetInterface ...
 func GetAvailableDevicesAtSpecificEthernetInterface(interfaceName string) []Device {
 	/*
-		Call an WS-Discovery Probe Message to Discover NVT type Devices
+		Call an ws-discovery Probe Message to Discover NVT type Devices
 	*/
 	devices := WS_Discovery.SendProbe(interfaceName, nil, []string{"dn:" + NVT.String()}, map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"})
 	nvtDevices := make([]Device, 0)
