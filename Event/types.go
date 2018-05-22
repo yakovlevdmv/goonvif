@@ -4,8 +4,8 @@ import (
 	"github.com/use-go/goonvif/xsd"
 )
 
-// FilterType Alias
-type FilterType xsd.String
+//Address Alias
+type Address xsd.String
 
 //CurrentTime alias
 type CurrentTime xsd.DateTime //wsnt http://docs.oasis-open.org/wsn/b-2.xsd
@@ -23,6 +23,12 @@ type TopicExpressionDialect xsd.AnyURI
 //Message alias
 type Message xsd.AnyType
 
+//ActionType for AttributedURIType
+type ActionType AttributedURIType
+
+//AttributedURIType in ws-addr
+type AttributedURIType xsd.AnyURI //wsa https://www.w3.org/2005/08/addressing/ws-addr.xsd
+
 //AbsoluteOrRelativeTimeType <xsd:union memberTypes="xsd:dateTime xsd:duration"/>
 type AbsoluteOrRelativeTimeType struct { //wsnt http://docs.oasis-open.org/wsn/b-2.xsd
 	xsd.DateTime
@@ -31,20 +37,22 @@ type AbsoluteOrRelativeTimeType struct { //wsnt http://docs.oasis-open.org/wsn/b
 
 //EndpointReferenceType in ws-addr
 type EndpointReferenceType struct { //wsa http://www.w3.org/2005/08/addressing/ws-addr.xsd
-	Address             AttributedURIType
-	ReferenceParameters ReferenceParametersType
-	Metadata            // todo:разобраться с этим: понять, на какой тип ссылается
+	Address             AttributedURIType       `xml:"wsnt:Address"`
+	ReferenceParameters ReferenceParametersType `xml:"wsnt:ReferenceParameters"`
+	Metadata            MetadataType            `xml:"wsnt:Metadata"`
 }
 
-//AttributedURIType in ws-addr
-type AttributedURIType struct { //wsa https://www.w3.org/2005/08/addressing/ws-addr.xsd
-	Any xsd.AnyURI //extension
-	//Here can be anyAttribute
+// FilterType struct
+type FilterType struct {
+	TopicExpression TopicExpressionType `xml:"wsnt:TopicExpression"`
+	MessageContent  QueryExpressionType `xml:"wsnt:MessageContent"`
 }
+
+//EndpointReference alais
+type EndpointReference EndpointReferenceType
 
 //ReferenceParametersType in ws-addr
 type ReferenceParametersType struct { //wsa https://www.w3.org/2005/08/addressing/ws-addr.xsd
-	Any string
 	//Here can be anyAttribute
 }
 
@@ -53,9 +61,8 @@ type Metadata MetadataType //wsa https://www.w3.org/2005/08/addressing/ws-addr.x
 
 //MetadataType in ws-addr
 type MetadataType struct { //wsa https://www.w3.org/2005/08/addressing/ws-addr.xsd
-	Any string
-	//Here can be anyAttribute
 
+	//Here can be anyAttribute
 }
 
 //TopicSet alias
@@ -90,9 +97,22 @@ type NotificationMessageHolderType struct {
 //NotificationMessage Alias
 type NotificationMessage NotificationMessageHolderType //wsnt http://docs.oasis-open.org/wsn/b-2.xsd
 
-//TopicExpressionType Alias
+//QueryExpressionType struct for wsnt:MessageContent
+type QueryExpressionType struct { //wsnt http://docs.oasis-open.org/wsn/b-2.xsd
+	Dialect     xsd.AnyURI `xml:"Dialect,attr"`
+	MessageKind xsd.String `xml:",chardata"` // boolean(ncex:Producer="15")
+}
+
+//MessageContentType Alias
+type MessageContentType QueryExpressionType
+
+//QueryExpression Alias
+type QueryExpression QueryExpressionType
+
+//TopicExpressionType struct for wsnt:TopicExpression
 type TopicExpressionType struct { //wsnt http://docs.oasis-open.org/wsn/b-2.xsd
-	Dialect xsd.AnyURI `xml:"Dialect,attr"`
+	Dialect    xsd.AnyURI `xml:"Dialect,attr"`
+	TopicKinds xsd.String `xml:",chardata"`
 }
 
 //Topic Alias
