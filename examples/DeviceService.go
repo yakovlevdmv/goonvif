@@ -8,8 +8,8 @@ import (
 
 	"github.com/use-go/goonvif"
 	"github.com/use-go/goonvif/device"
+	"github.com/use-go/goonvif/gosoap"
 	"github.com/use-go/goonvif/xsd/onvif"
-	"github.com/use-go/gosoap"
 )
 
 const (
@@ -62,7 +62,7 @@ func main() {
 		log.Println(err)
 	} else {
 		/*
-			You could use https://github.com/use-go/gosoap for pretty printing response
+			You could use https://github.com/use-go/goonvif/gosoap for pretty printing response
 		*/
 		fmt.Println(gosoap.SoapMessage(readResponse(createUserResponse)).StringIndent())
 	}

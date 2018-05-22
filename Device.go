@@ -12,9 +12,9 @@ import (
 
 	"github.com/beevik/etree"
 	"github.com/use-go/goonvif/device"
+	"github.com/use-go/goonvif/gosoap"
 	"github.com/use-go/goonvif/networking"
-	"github.com/use-go/ws-discovery"
-	"github.com/use-go/gosoap"
+	"github.com/use-go/goonvif/ws-discovery"
 )
 
 //Xlmns XML Scheam
