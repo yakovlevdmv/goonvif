@@ -6,7 +6,7 @@ import (
 
 //Xlmns XML Scheam
 var actionHeaders = map[string]string{
-	"wsnt:Subscribe":     "http://docs.oasis-open.org/wsn/bw-2/NotificationProducer/SubscribeRequest",
+	"Subscribe":          "http://docs.oasis-open.org/wsn/bw-2/NotificationProducer/SubscribeRequest",
 	"ResumeSubscription": "http://docs.oasis-open.org/wsn/bw-2/PausableSubscriptionManager/ResumeSubscriptionRequest",
 	"PauseSubscription":  "http://docs.oasis-open.org/wsn/bw-2/PausableSubscriptionManager/PauseSubscriptionRequest",
 	"Unsubscribe":        "http://docs.oasis-open.org/wsn/bw-2/PausableSubscriptionManager/UnsubscribeRequest",
@@ -20,8 +20,8 @@ var actionHeaders = map[string]string{
 //Action type
 type Action struct {
 	//XMLName xml.Name  `xml:"wsse:Security"`
-	XMLName   xml.Name `xml:"wsa:Action"`
-	Operation string   `xml:",chardata"`
+	XMLName xml.Name `xml:"wsa:Action"`
+	Value   string   `xml:",chardata"`
 }
 
 /*
@@ -30,14 +30,12 @@ type Action struct {
    </wsa:Action>
 */
 
-//NewAction get a new Action Section
-func NewAction(key, value string) Action {
+//NewAction get a new Head Action Section
+func NewAction(actionString string) Action {
 
-	/** Generating Nonce sequence **/
-	auth := Action{
-
-	//	Created: time.Now().UTC().Format(time.RFC3339Nano),
+	return Action{
+		Value: actionString,
+		//	Created: time.Now().UTC().Format(time.RFC3339Nano),
 	}
 
-	return auth
 }

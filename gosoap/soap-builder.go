@@ -2,7 +2,9 @@ package gosoap
 
 import (
 	"encoding/xml"
+	"errors"
 	"log"
+	"strings"
 
 	"github.com/beevik/etree"
 )
@@ -244,61 +246,52 @@ func buildSoapRoot() *etree.Document {
 
 //AddWSSecurity Header for soapMessage
 func (msg *SoapMessage) AddWSSecurity(username, password string) {
-	//doc := etree.NewDocument()
-	//if err := doc.ReadFromString(msg.String()); err != nil {
-	//	log.Println(err.Error())
-	//}
-	/*
-		Getting an WS-Security struct representation
-	*/
-	auth := NewSecurity(username, password)
-
-	/*
-		Adding WS-Security namespaces to root element of SOAP message
-	*/
-	//msg.AddRootNamespace("wsse", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext1.0.xsd")
-	//msg.AddRootNamespace("wsu", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility1.0.xsd")
-
-	soapReq, err := xml.MarshalIndent(auth, "", "  ")
-	if err != nil {
-		//log.Printf("error: %v\n", err.Error())
-		panic(err)
-	}
-
-	/*
-		Adding WS-Security struct to SOAP header
-	*/
-	msg.AddStringHeaderContent(string(soapReq))
-
-	//doc.IndentTabs()
-	//res, _ := doc.WriteToString()
-	//
-	//*msg = SoapMessage(res)
+	security := NewSecurity(username, password)
+	msg.addHeadSection(security)
 }
 
 //AddAction Header handling for soapMessage
 func (msg *SoapMessage) AddAction() {
 
+	urlString := msg.getActionURL()
+	if urlString != "" {
+		//GetAction Header
+		actionHeader := NewAction(urlString)
+		msg.addHeadSection(actionHeader)
+	}
+
+}
+
+//AddHeadSection add head node in heads
+func (msg *SoapMessage) getActionURL() string {
+
 	doc := etree.NewDocument()
 	if err := doc.ReadFromString(msg.String()); err != nil {
 		log.Println(err.Error())
 	}
-	// opetaionTag := doc.Root().SelectElement("Body")
+	opertaion := doc.Root().SelectElement("Body").FindElement("./[1]/*")
+	if opertaion.Tag == "" {
+		panic(errors.New("bad request body"))
+	}
+	for k, v := range actionHeaders {
+		if bEqual := strings.EqualFold(k, opertaion.Tag); bEqual {
+			return v
+		}
+	}
+	return ""
+}
 
-	// firstElemnt := opetaionTag.Child[0]
+//AddHeadSection add head node in heads
+func (msg *SoapMessage) addHeadSection(headerSction interface{}) {
 
-	// soapReq, err := xml.MarshalIndent(action, "", "  ")
-	// if err != nil {
-	// 	//log.Printf("error: %v\n", err.Error())
-	// 	panic(err)
-	// }
-	// /*
-	// 	Adding WS-Security struct to SOAP header
-	// */
-	// msg.AddStringHeaderContent(string(soapReq))
+	soapReq, err := xml.MarshalIndent(headerSction, "", "  ")
+	if err != nil {
+		//log.Printf("error: %v\n", err.Error())
+		panic(err)
+	}
+	/*
+		Adding WS-Security struct to SOAP header
+	*/
+	msg.AddStringHeaderContent(string(soapReq))
 
-	// //doc.IndentTabs()
-	// //res, _ := doc.WriteToString()
-	// //
-	// //*msg = SoapMessage(res)
 }
