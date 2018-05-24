@@ -128,7 +128,7 @@ type GetDeviceInformationResponse struct {
 	Model           string
 	FirmwareVersion string
 	SerialNumber    string
-	HardwareId      string
+	HardwareID      string
 }
 
 type SetSystemDateAndTime struct {

@@ -37,15 +37,15 @@ type AbsoluteOrRelativeTimeType struct { //wsnt http://docs.oasis-open.org/wsn/b
 
 //EndpointReferenceType in ws-addr
 type EndpointReferenceType struct { //wsa http://www.w3.org/2005/08/addressing/ws-addr.xsd
-	Address             AttributedURIType       `xml:"was5:Address"`
-	ReferenceParameters ReferenceParametersType `xml:"was5:ReferenceParameters"`
-	Metadata            MetadataType            `xml:"was5:Metadata"`
+	Address AttributedURIType `xml:"wsa5:Address"`
+	//	ReferenceParameters ReferenceParametersType `xml:"was5:ReferenceParameters,omit"`
+	//	Metadata            MetadataType            `xml:"was5:Metadata,omit"`
 }
 
 // FilterType struct
 type FilterType struct {
-	TopicExpression TopicExpressionType `xml:"wsnt:TopicExpression"`
-	MessageContent  QueryExpressionType `xml:"wsnt:MessageContent"`
+	TopicExpression TopicExpressionType `xml:"wsnt:TopicExpression,omitempty"`
+	MessageContent  QueryExpressionType `xml:"wsnt:MessageContent,omitempty"`
 }
 
 //EndpointReference alais

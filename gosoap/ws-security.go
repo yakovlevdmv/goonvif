@@ -13,15 +13,19 @@ import (
 	WS-Security types
 *************************/
 const (
-	passwordType = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest"
-	encodingType = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary"
+	passwordType      = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest"
+	encodingType      = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary"
+	wssecuritySecext  = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
+	wssecurityUtility = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
 )
 
 //Security type :XMLName xml.Name `xml:"http://purl.org/rss/1.0/modules/content/ encoded"`
 type Security struct {
 	//XMLName xml.Name  `xml:"wsse:Security"`
-	XMLName xml.Name `xml:"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd Security"`
-	Auth    wsAuth
+	XMLName       xml.Name      `xml:"wsse:Security"`
+	UsernameToken usernameToken `xml:"wsse:UsernameToken"`
+	Wsse          string        `xml:"xmlns:wsse,attr"`
+	Wsu           string        `xml:"xmlns:wsu,attr"`
 }
 
 type password struct {
@@ -32,16 +36,16 @@ type password struct {
 
 type nonce struct {
 	//XMLName xml.Name `xml:"wsse:Nonce"`
-	Type  string `xml:"EncodingType,attr"`
+	//Type  string `xml:"Type,attr"`
 	Nonce string `xml:",chardata"`
 }
 
-type wsAuth struct {
-	XMLName  xml.Name `xml:"UsernameToken"`
-	Username string   `xml:"Username"`
-	Password password `xml:"Password"`
-	Nonce    nonce    `xml:"Nonce"`
-	Created  string   `xml:"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd Created"`
+type usernameToken struct {
+	//	XMLName  xml.Name `xml:"wsse:UsernameToken"`
+	Username string   `xml:"wsse:Username"`
+	Password password `xml:"wsse:Password"`
+	Nonce    nonce    `xml:"wsse:Nonce"`
+	Created  string   `xml:"wsu:Created"`
 }
 
 /*
@@ -66,22 +70,22 @@ func NewSecurity(username, passwd string) Security {
 	//use the same time for password and Created fileld !
 	nowTimeUTC := time.Now().UTC()
 
-	auth := Security{
-		Auth: wsAuth{
+	return Security{
+		UsernameToken: usernameToken{
 			Username: username,
 			Password: password{
 				Type:     passwordType,
 				Password: generateToken(username, nonceSeq, nowTimeUTC, passwd),
 			},
 			Nonce: nonce{
-				Type:  encodingType,
 				Nonce: nonceSeq,
 			},
 			Created: nowTimeUTC.Format(time.RFC3339Nano),
 		},
+		Wsse: wssecuritySecext,
+		Wsu:  wssecurityUtility,
 	}
 
-	return auth
 }
 
 //Digest = B64ENCODE( SHA1( B64DECODE( Nonce ) + Date + Password ) )

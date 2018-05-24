@@ -19,28 +19,44 @@ import (
 
 //Xlmns XML Scheam
 var Xlmns = map[string]string{
-	"onvif":   "http://www.onvif.org/ver10/schema",
-	"tds":     "http://www.onvif.org/ver10/device/wsdl",
-	"trt":     "http://www.onvif.org/ver10/media/wsdl",
-	"tev":     "http://www.onvif.org/ver10/events/wsdl",
-	"tptz":    "http://www.onvif.org/ver20/ptz/wsdl",
-	"timg":    "http://www.onvif.org/ver20/imaging/wsdl",
-	"tan":     "http://www.onvif.org/ver20/analytics/wsdl",
-	"xmime":   "http://www.w3.org/2005/05/xmlmime",
-	"wsnt":    "http://docs.oasis-open.org/wsn/b-2",
-	"xop":     "http://www.w3.org/2004/08/xop/include",
-	"wsa":     "http://www.w3.org/2004/08/addressing",
-	"wsa5":    "http://www.w3.org/2005/08/addressing",
-	"wstop":   "http://docs.oasis-open.org/wsn/t-1",
-	"wsntw":   "http://docs.oasis-open.org/wsn/bw-2",
-	"wsrf-rw": "http://docs.oasis-open.org/wsrf/rw-2",
-	"wsaw":    "http://www.w3.org/2006/05/addressing/wsdl",
+	"xsi":          "http://www.w3.org/2001/XMLSchema-instance",
+	"xsd":          "http://www.w3.org/2001/XMLSchema",
+	"c14n":         "http://www.w3.org/2001/10/xml-exc-c14n#",
+	"wsu":          "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd",
+	"wsc":          "http://schemas.xmlsoap.org/ws/2005/02/sc",
+	"xenc":         "http://www.w3.org/2001/04/xmlenc#",
+	"ds":           "http://www.w3.org/2000/09/xmldsig#",
+	"wsse":         "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd",
+	"chan":         "http://schemas.microsoft.com/ws/2005/02/duplex",
+	"wsa5":         "http://www.w3.org/2005/08/addressing",
+	"h":            "http://tempuri.org/h.xsd",
+	"xmime":        "http://tempuri.org/xmime.xsd",
+	"xop":          "http://www.w3.org/2004/08/xop/include",
+	"tt":           "http://www.onvif.org/ver10/schema",
+	"wsrfbf":       "http://docs.oasis-open.org/wsrf/bf-2",
+	"wstop":        "http://docs.oasis-open.org/wsn/t-1",
+	"wsrfr":        "http://docs.oasis-open.org/wsrf/r-2",
+	"tds":          "http://www.onvif.org/ver10/device/wsdl",
+	"tev":          "http://www.onvif.org/ver10/events/wsdl",
+	"wsnt":         "http://docs.oasis-open.org/wsn/b-2",
+	"tmd":          "http://www.onvif.org/ver10/deviceIO/wsdl",
+	"tptz":         "http://www.onvif.org/ver20/ptz/wsdl",
+	"trt":          "http://www.onvif.org/ver10/media/wsdl",
+	"tns1":         "http://www.onvif.org/ver10/topics",
+	"timg":         "http://www.onvif.org/ver20/imaging/wsdl",
+	"tan":          "http://www.onvif.org/ver20/analytics/wsdl",
+	"wsa":          "http://www.w3.org/2004/08/addressing",
+	"wsntw":        "http://docs.oasis-open.org/wsn/bw-2",
+	"wsrf-rw":      "http://docs.oasis-open.org/wsrf/rw-2",
+	"wsaw":         "http://www.w3.org/2006/05/addressing/wsdl",
+	"onvif":        "http://www.onvif.org/ver10/schema",
+	"tnshoneywell": "http://www.honeywell.com/acs/security",
 }
 
 //DeviceType alias for int
 type DeviceType int
 
-// Onvif Device Tyoe
+// Onvif Device Type
 const (
 	NVD DeviceType = iota
 	NVS
@@ -70,7 +86,7 @@ type deviceInfo struct {
 	Model           string
 	FirmwareVersion string
 	SerialNumber    string
-	HardwareId      string
+	HardwareID      string
 }
 
 //Device for a new device of onvif and deviceInfo
@@ -180,7 +196,6 @@ func NewDevice(xaddr string) (*Device, error) {
 	//fmt.Println(resp.Request.Host)
 	//fmt.Println(readResponse(resp))
 	if err != nil || resp.StatusCode != http.StatusOK {
-		//panic(errors.New("camera is not available at " + xaddr + " or it does not support ONVIF services"))
 		return nil, errors.New("camera is not available at " + xaddr + " or it does not support ONVIF services")
 	}
 
@@ -287,8 +302,9 @@ func (dev Device) callMethodDo(endpoint string, method interface{}) (*http.Respo
 	soap.AddRootNamespaces(Xlmns)
 
 	//fmt.Println(soap.StringIndent())
-	//Header handling
-	soap.AddAction()
+	//Header handling for action
+	// this is not a must
+	//soap.AddAction()
 
 	//Auth Handling
 	if dev.login != "" && dev.password != "" {
