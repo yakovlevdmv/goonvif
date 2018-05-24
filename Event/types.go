@@ -37,9 +37,9 @@ type AbsoluteOrRelativeTimeType struct { //wsnt http://docs.oasis-open.org/wsn/b
 
 //EndpointReferenceType in ws-addr
 type EndpointReferenceType struct { //wsa http://www.w3.org/2005/08/addressing/ws-addr.xsd
-	Address             AttributedURIType       `xml:"wsnt:Address"`
-	ReferenceParameters ReferenceParametersType `xml:"wsnt:ReferenceParameters"`
-	Metadata            MetadataType            `xml:"wsnt:Metadata"`
+	Address             AttributedURIType       `xml:"was5:Address"`
+	ReferenceParameters ReferenceParametersType `xml:"was5:ReferenceParameters"`
+	Metadata            MetadataType            `xml:"was5:Metadata"`
 }
 
 // FilterType struct
@@ -99,8 +99,8 @@ type NotificationMessage NotificationMessageHolderType //wsnt http://docs.oasis-
 
 //QueryExpressionType struct for wsnt:MessageContent
 type QueryExpressionType struct { //wsnt http://docs.oasis-open.org/wsn/b-2.xsd
-	Dialect     xsd.AnyURI `xml:"Dialect,attr"`
-	MessageKind xsd.String `xml:",chardata"` // boolean(ncex:Producer="15")
+	Dialect xsd.AnyURI `xml:"Dialect,attr"`
+	Value   xsd.String `xml:",chardata"` // boolean(ncex:Producer="15")
 }
 
 //MessageContentType Alias
@@ -111,8 +111,8 @@ type QueryExpression QueryExpressionType
 
 //TopicExpressionType struct for wsnt:TopicExpression
 type TopicExpressionType struct { //wsnt http://docs.oasis-open.org/wsn/b-2.xsd
-	Dialect    xsd.AnyURI `xml:"Dialect,attr"`
-	TopicKinds xsd.String `xml:",chardata"`
+	Dialect xsd.AnyURI `xml:"Dialect,attr"`
+	Value   xsd.String `xml:",chardata"`
 }
 
 //Topic Alias
