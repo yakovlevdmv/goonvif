@@ -235,7 +235,7 @@ func buildSoapRoot() *etree.Document {
 	doc.CreateProcInst("xml", `version="1.0" encoding="UTF-8"`)
 
 	env := doc.CreateElement("SOAP-ENV:Envelope")
-	env.CreateElement("SOAP-ENV:Header")
+	env.CreateElement("s:Header").CreateAttr("xmlns:s", "http://www.w3.org/2003/05/soap-envelope")
 	env.CreateElement("SOAP-ENV:Body")
 
 	env.CreateAttr("xmlns:SOAP-ENV", "http://www.w3.org/2003/05/soap-envelope")

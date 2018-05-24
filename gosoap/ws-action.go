@@ -20,7 +20,7 @@ var actionHeaders = map[string]string{
 //Action type
 type Action struct {
 	//XMLName xml.Name  `xml:"wsse:Security"`
-	XMLName xml.Name `xml:"wsa:Action"`
+	XMLName xml.Name `xml:"wsa5:Action"`
 	Value   string   `xml:",chardata"`
 }
 
