@@ -62,18 +62,22 @@ func NewSecurity(username, passwd string) Security {
 	charSet := gostrgen.Lower | gostrgen.Digit
 
 	nonceSeq, _ := gostrgen.RandGen(charsToGenerate, charSet, "", "")
+
+	//use the same time for password and Created fileld !
+	nowTimeUTC := time.Now().UTC()
+
 	auth := Security{
 		Auth: wsAuth{
 			Username: username,
 			Password: password{
 				Type:     passwordType,
-				Password: generateToken(username, nonceSeq, time.Now().UTC(), passwd),
+				Password: generateToken(username, nonceSeq, nowTimeUTC, passwd),
 			},
 			Nonce: nonce{
 				Type:  encodingType,
 				Nonce: nonceSeq,
 			},
-			Created: time.Now().UTC().Format(time.RFC3339Nano),
+			Created: nowTimeUTC.Format(time.RFC3339Nano),
 		},
 	}
 
