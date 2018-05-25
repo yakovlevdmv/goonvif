@@ -38,8 +38,15 @@ type AbsoluteOrRelativeTimeType struct { //wsnt http://docs.oasis-open.org/wsn/b
 //EndpointReferenceType in ws-addr
 type EndpointReferenceType struct { //wsa http://www.w3.org/2005/08/addressing/ws-addr.xsd
 	Address AttributedURIType `xml:"wsa5:Address"`
-	//	ReferenceParameters ReferenceParametersType `xml:"was5:ReferenceParameters,omit"`
-	//	Metadata            MetadataType            `xml:"was5:Metadata,omit"`
+	//	ReferenceParameters ReferenceParametersType `xml:"wsa5:ReferenceParameters,omit"`
+	//	Metadata            MetadataType            `xml:"wsa5:Metadata,omit"`
+}
+
+//SubscriptionReference in ws-addr
+type SubscriptionReference struct { //wsa http://www.w3.org/2005/08/addressing/ws-addr.xsd
+	Address AttributedURIType `xml:"Address"`
+	//	ReferenceParameters ReferenceParametersType `xml:"wsa5:ReferenceParameters,omit"`
+	//	Metadata            MetadataType            `xml:"wsa5:Metadata,omit"`
 }
 
 // FilterType struct
@@ -82,9 +89,6 @@ type ExtensibleDocumented struct { //wstop http://docs.oasis-open.org/wsn/t-1.xs
 
 //ProducerReference Alias
 type ProducerReference EndpointReferenceType
-
-//SubscriptionReference Alias
-type SubscriptionReference EndpointReferenceType
 
 //NotificationMessageHolderType Alias
 type NotificationMessageHolderType struct {

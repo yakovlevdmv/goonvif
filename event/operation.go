@@ -30,9 +30,9 @@ type Subscribe struct { //http://docs.oasis-open.org/wsn/b-2.xsd
 
 //SubscribeResponse message for subscribe event topic
 type SubscribeResponse struct { //http://docs.oasis-open.org/wsn/b-2.xsd
-	SubscriptionReference EndpointReferenceType `xml:"wsnt:SubscriptionReference"`
-	CurrentTime           CurrentTime           `xml:"wsnt:CurrentTime"`
-	TerminationTime       TerminationTime       `xml:"wsnt:TerminationTime"`
+	SubscriptionReference SubscriptionReference `xml:"SubscriptionReference"`
+	CurrentTime           CurrentTime           `xml:"CurrentTime"`
+	TerminationTime       TerminationTime       `xml:"TerminationTime"`
 }
 
 //Renew action for refresh event topic subscription
