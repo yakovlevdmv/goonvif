@@ -161,26 +161,16 @@ func GetAvailableDevicesAtSpecificEthernetInterface(interfaceName string) []Devi
 }
 
 func (dev *Device) getSupportedServices(resp *http.Response) {
-	//resp, err := dev.CallMethod(Device.GetCapabilities{Category:"All"})
-	//if err != nil {
-	//	log.Println(err.Error())
-	//return
-	//} else {
+
 	doc := etree.NewDocument()
-
 	data, _ := ioutil.ReadAll(resp.Body)
-
 	if err := doc.ReadFromBytes(data); err != nil {
-		//log.Println(err.Error())
 		return
 	}
 	services := doc.FindElements("./Envelope/Body/GetCapabilitiesResponse/Capabilities/*/XAddr")
 	for _, j := range services {
-		////fmt.Println(j.Text())
-		////fmt.Println(j.Parent().Tag)
 		dev.addEndpoint(j.Parent().Tag, j.Text())
 	}
-	//}
 }
 
 //NewDevice function construct a ONVIF Device entity
