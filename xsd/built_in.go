@@ -229,6 +229,7 @@ func (tp Duration) NewDateTime(years, months, days, hours, minutes, seconds stri
 	TODO: decide good type for time with proper format
 	TODO: process restrictions
 */
+//DateTime...
 type DateTime AnySimpleType
 
 /*
@@ -258,12 +259,13 @@ func (tp DateTime) NewDateTime(time time.Time) DateTime {
 
 	TODO: process restrictions
 */
+//Time...
 type Time AnySimpleType
 
 /*
 	Construct an instance of xsd time type
 */
-func (tp DateTime) NewTime(time time.Time) DateTime {
+func (tp Time) NewTime(time time.Time) DateTime {
 	return DateTime(time.Format("15:04:05"))
 }
 
@@ -277,6 +279,7 @@ func (tp DateTime) NewTime(time time.Time) DateTime {
 	cover the nontimezoned timeline, one per day. For timezoned
 	values, the intervals begin at every minute and therefore overlap.
 */
+//Date...
 type Date AnySimpleType
 
 /*
@@ -305,7 +308,7 @@ type GYearMonth AnySimpleType
 	Construct an instance of xsd GYearMonth type
 */
 func (tp GYearMonth) NewGYearMonth(time time.Time) GYearMonth {
-	return GYearMonth(fmt.Sprintf("", time.Year(), "-", time.Month()))
+	return GYearMonth(fmt.Sprint("", time.Year(), "-", time.Month()))
 	//return GYearMonth(time.Format("2004-04-05:00"))
 }
 
@@ -327,7 +330,7 @@ type GYear AnySimpleType
 	Construct an instance of xsd GYear type
 */
 func (tp GYear) NewGYear(time time.Time) GYear {
-	return GYear(fmt.Sprintf("", time.Year()))
+	return GYear(fmt.Sprint("", time.Year()))
 	//return GYearMonth(time.Format("2004-04-05:00"))
 }
 
@@ -347,7 +350,7 @@ type GMonthDay AnySimpleType
 	Construct an instance of xsd GMonthDay type
 */
 func (tp GMonthDay) NewGMonthDay(time time.Time) GMonthDay {
-	return GMonthDay(fmt.Sprintf("--", time.Month(), "-", time.Day()))
+	return GMonthDay(fmt.Sprint("--", time.Month(), "-", time.Day()))
 }
 
 /*
@@ -367,7 +370,7 @@ type GDay AnySimpleType
 	Construct an instance of xsd GDay type
 */
 func (tp GDay) NewGDay(time time.Time) GDay {
-	return GDay(fmt.Sprintf("---", time.Day()))
+	return GDay(fmt.Sprint("---", time.Day()))
 }
 
 /*
@@ -384,8 +387,9 @@ func (tp GDay) NewGDay(time time.Time) GDay {
 */
 type GMonth AnySimpleType
 
+//NewGMonth ...
 func (tp GMonth) NewGMonth(time time.Time) GMonth {
-	return GMonth(fmt.Sprintf("--", time.Month()))
+	return GMonth(fmt.Sprint("--", time.Month()))
 }
 
 /*
@@ -400,8 +404,10 @@ func (tp GMonth) NewGMonth(time time.Time) GMonth {
 
 	More info: https://www.w3.org/TR/xmlschema-2/#hexBinary
 */
+//HexBinary...
 type HexBinary AnySimpleType
 
+//NewHexBinary ...
 func (tp HexBinary) NewHexBinary(data []byte) HexBinary {
 	return HexBinary(hex.EncodeToString(data))
 }
@@ -446,6 +452,7 @@ func (tp Base64Binary) NewBase64Binary(data []byte) Base64Binary {
 */
 type AnyURI AnySimpleType
 
+//NewAnyURI ...
 func (tp AnyURI) NewAnyURI(data url.URL) AnyURI {
 	return AnyURI(data.String())
 }
@@ -465,8 +472,10 @@ func (tp AnyURI) NewAnyURI(data url.URL) AnyURI {
 
 	More info: https://www.w3.org/TR/xmlschema-2/#QName
 */
+//QName for XML qualified names
 type QName AnySimpleType
 
+//NewQName for XML qualified names
 func (tp QName) NewQName(prefix, local string) QName {
 	var result string
 	if len(prefix) == 0 {
