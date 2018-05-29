@@ -10,21 +10,21 @@ import (
 //TODO: type <typeName> struct {Any string} convert to type <typeName> AnyType
 //TODO: process restrictions
 
-//todo посмотреть все Extensions (Any string)
-//todo что делать с xs:any = Any
-//todo IntList и ему подобные. Проверить нужен ли слайс. Изменить на slice
-//todo посмотреть можно ли заменить StreamType и ему подобные типы на вмтроенные типы
-//todo оттестировать тип VideoSourceMode из-за Description-а
-
-//todo в документации описать, что Capabilities повторяеся у каждого сервиса, поэтому у каждого свой Capabilities (MediaCapabilities)
-//todo AuxiliaryData и другие simpleTypes, как реализовать рестрикшн
-//todo Name и ему подобные необходимо изучить на наличие "List of..." ошибок
-
-//todo Add in buit in
+//TODO: Name and similar ones should be examined for the presence of "List of ..." errors
+//TODO: view all Extensions (Any string)
+//TODO: what to do with xs: any = Any
+//TODO: IntList and the like. Check whether you need a slice. Change to slice
+//TODO: to see if it is possible to replace StreamType and similar types with the types that are typed in
+//TODO: to test the type of VideoSourceMode because of the Description-a
+//TODO: in the documentation to describe that Capabilities is repeated for each service, so each has its Capabilities MediaCapabilities)
+//TODO: AuxiliaryData and other simpleTypes, how to implement the restriction
+//TODO: Name and similar ones should be examined for the presence of "List of ..." errors
+//TODO: Add in buit-in
 
 //ContentType from string
 type ContentType string // minLength value="3"
 
+//ReferenceToken from xsd.string
 type ReferenceToken xsd.String
 
 //Name from xsd.string
@@ -131,26 +131,22 @@ type SimpleItem struct {
 type ElementItem struct {
 	Name string `xml:"Name,attr"`
 }
-
 type ItemListExtension xsd.AnyType
 
 type RuleEngineConfiguration struct {
 	Rule      Config                           `xml:"onvif:Rule"`
 	Extension RuleEngineConfigurationExtension `xml:"onvif:Extension"`
 }
-
 type RuleEngineConfigurationExtension xsd.AnyType
 
 type EFlip struct {
 	Mode EFlipMode `xml:"onvif:Mode"`
 }
-
 type EFlipMode xsd.String
 
 type Reverse struct {
 	Mode ReverseMode `xml:"onvif:Mode"`
 }
-
 type ReverseMode xsd.String
 
 type RotateOptions struct {
