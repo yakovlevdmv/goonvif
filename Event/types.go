@@ -2,6 +2,7 @@ package event
 
 import (
 	"github.com/use-go/goonvif/xsd"
+	"github.com/use-go/goonvif/xsd/onvif"
 )
 
 //Address Alias
@@ -88,14 +89,29 @@ type ExtensibleDocumented struct { //wstop http://docs.oasis-open.org/wsn/t-1.xs
 }
 
 //ProducerReference Alias
-type ProducerReference EndpointReferenceType
+type ProducerReference SubscriptionReference
 
 //NotificationMessageHolderType Alias
-type NotificationMessageHolderType struct {
-	SubscriptionReference SubscriptionReference //wsnt http://docs.oasis-open.org/wsn/b-2.xsd
-	Topic                 Topic
-	ProducerReference     ProducerReference
-	Message               Message
+type NotificationMessageHolderType struct { //wsnt http://docs.oasis-open.org/wsn/b-2.xsd
+	SubscriptionReference SubscriptionReference `xml:"SubscriptionReference"`
+	Topic                 Topic                 `xml:"Topic"`
+	ProducerReference     ProducerReference     `xml:"ProducerReference"`
+	Message               MessageType           `xml:"Message>Message"`
+}
+
+//MessageType ...
+type MessageType struct {
+	UtcTime           xsd.DateTime                `xml:"UtcTime,attr"`
+	PropertyOperation onvif.PropertyOperationType `xml:"PropertyOperation,attr"`
+	Source            onvif.ItemList              `xml:"Source"`
+	Key               onvif.ItemList              `xml:"Key"`
+	Data              onvif.ItemList              `xml:"Data"`
+}
+
+//Notify Message in Body
+type Notify struct {
+	XMLName                  struct{}              `xml:"Notify"`
+	NotificationMessagesList []NotificationMessage `xml:"NotificationMessage"`
 }
 
 //NotificationMessage Alias

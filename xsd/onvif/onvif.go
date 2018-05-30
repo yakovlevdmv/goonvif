@@ -117,22 +117,6 @@ type Config struct {
 	Parameters ItemList  `xml:"onvif:Parameters"`
 }
 
-type ItemList struct {
-	SimpleItem  SimpleItem        `xml:"onvif:SimpleItem"`
-	ElementItem ElementItem       `xml:"onvif:ElementItem"`
-	Extension   ItemListExtension `xml:"onvif:Extension"`
-}
-
-type SimpleItem struct {
-	Name  string            `xml:"onvif:Name,attr"`
-	Value xsd.AnySimpleType `xml:"onvif:Value,attr"`
-}
-
-type ElementItem struct {
-	Name string `xml:"Name,attr"`
-}
-type ItemListExtension xsd.AnyType
-
 type RuleEngineConfiguration struct {
 	Rule      Config                           `xml:"onvif:Rule"`
 	Extension RuleEngineConfigurationExtension `xml:"onvif:Extension"`
