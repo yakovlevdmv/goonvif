@@ -2,7 +2,11 @@ package event
 
 import (
 	"github.com/use-go/goonvif/xsd"
+	"github.com/use-go/goonvif/xsd/onvif"
 )
+
+//EndpointReferenceType type for device
+type EndpointReferenceType onvif.EndpointReferenceType
 
 //GetServiceCapabilities action
 type GetServiceCapabilities struct {
@@ -48,12 +52,32 @@ type RenewResponse struct { //http://docs.oasis-open.org/wsn/b-2.xsd
 
 //Unsubscribe action for Unsubscribe event topic
 type Unsubscribe struct { //http://docs.oasis-open.org/wsn/b-2.xsd
-	Any string
+	Any xsd.AnyType
 }
 
 //UnsubscribeResponse message for Unsubscribe event topic
 type UnsubscribeResponse struct { //http://docs.oasis-open.org/wsn/b-2.xsd
-	Any string
+	Any xsd.AnyType
+}
+
+//PauseSubscription action for PauseSubscription
+type PauseSubscription struct { //http://docs.oasis-open.org/wsn/b-2.xsd
+	Any xsd.AnyType
+}
+
+//PauseSubscriptionResponse action for PauseSubscriptionResponse
+type PauseSubscriptionResponse struct { //http://docs.oasis-open.org/wsn/b-2.xsd
+	Any xsd.AnyType
+}
+
+//ResumeSubscription action for ResumeSubscription
+type ResumeSubscription struct { //http://docs.oasis-open.org/wsn/b-2.xsd
+	Any xsd.AnyType
+}
+
+//ResumeSubscriptionResponse action for ResumeSubscriptionResponse
+type ResumeSubscriptionResponse struct { //http://docs.oasis-open.org/wsn/b-2.xsd
+	Any xsd.AnyType
 }
 
 //CreatePullPointSubscription action

@@ -36,13 +36,6 @@ type AbsoluteOrRelativeTimeType struct { //wsnt http://docs.oasis-open.org/wsn/b
 	xsd.Duration
 }
 
-//EndpointReferenceType in ws-addr
-type EndpointReferenceType struct { //wsa http://www.w3.org/2005/08/addressing/ws-addr.xsd
-	Address AttributedURIType `xml:"wsa5:Address"`
-	//	ReferenceParameters ReferenceParametersType `xml:"wsa5:ReferenceParameters,omit"`
-	//	Metadata            MetadataType            `xml:"wsa5:Metadata,omit"`
-}
-
 //SubscriptionReference in ws-addr
 type SubscriptionReference struct { //wsa http://www.w3.org/2005/08/addressing/ws-addr.xsd
 	Address AttributedURIType `xml:"Address"`
@@ -57,7 +50,7 @@ type FilterType struct {
 }
 
 //EndpointReference alais
-type EndpointReference EndpointReferenceType
+type EndpointReference onvif.EndpointReferenceType
 
 //ReferenceParametersType in ws-addr
 type ReferenceParametersType struct { //wsa https://www.w3.org/2005/08/addressing/ws-addr.xsd
@@ -189,9 +182,22 @@ type UnsupportedPolicyRequestFault struct {
 }
 
 //NotifyMessageNotSupportedFault response type
-type NotifyMessageNotSupportedFault struct {
-}
+type NotifyMessageNotSupportedFault onvif.BaseFaultType
 
 //SubscribeCreationFailedFault response type
-type SubscribeCreationFailedFault struct {
-}
+type SubscribeCreationFailedFault onvif.BaseFaultType
+
+//ResumeFailedFault type
+type ResumeFailedFault onvif.BaseFaultType
+
+//PauseFailedFault type
+type PauseFailedFault onvif.BaseFaultType
+
+//UnableToDestroySubscriptionFault type
+type UnableToDestroySubscriptionFault onvif.BaseFaultType
+
+//UnacceptableTerminationTimeFault type
+type UnacceptableTerminationTimeFault onvif.BaseFaultType
+
+//UnableToCreatePullPointFault type
+type UnableToCreatePullPointFault onvif.BaseFaultType
