@@ -53,9 +53,9 @@ type ErrorType struct {
 
 //BaseFaultType type
 type BaseFaultType struct {
-	Timestamp  xsd.DateTime `xml:"Timestamp"`
-	Originator xsd.String   //type="wsa:EndpointReferenceType"
-	ErrorCode  ErrorType
+	Timestamp  xsd.DateTime          `xml:"Timestamp"`
+	Originator EndpointReferenceType `xml:"Originator"` //type="wsa:EndpointReferenceType"
+	ErrorCode  ErrorType             `xml:"ErrorCode"`
 }
 
 //AttributedURIType in ws-addr

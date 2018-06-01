@@ -2,11 +2,7 @@ package event
 
 import (
 	"github.com/use-go/goonvif/xsd"
-	"github.com/use-go/goonvif/xsd/onvif"
 )
-
-//EndpointReferenceType type for device
-type EndpointReferenceType onvif.EndpointReferenceType
 
 //GetServiceCapabilities action
 type GetServiceCapabilities struct {

@@ -36,6 +36,13 @@ type AbsoluteOrRelativeTimeType struct { //wsnt http://docs.oasis-open.org/wsn/b
 	xsd.Duration
 }
 
+//EndpointReferenceType in ws-addr
+type EndpointReferenceType struct { //wsa http://www.w3.org/2005/08/addressing/ws-addr.xsd
+	Address AttributedURIType `xml:"wsa5:Address"`
+	//	ReferenceParameters ReferenceParametersType `xml:"wsa5:ReferenceParameters,omit"`
+	//	Metadata            MetadataType            `xml:"wsa5:Metadata,omit"`
+}
+
 //SubscriptionReference in ws-addr
 type SubscriptionReference struct { //wsa http://www.w3.org/2005/08/addressing/ws-addr.xsd
 	Address AttributedURIType `xml:"Address"`
@@ -48,9 +55,6 @@ type FilterType struct {
 	TopicExpression TopicExpressionType `xml:"wsnt:TopicExpression,omitempty"`
 	MessageContent  QueryExpressionType `xml:"wsnt:MessageContent,omitempty"`
 }
-
-//EndpointReference alais
-type EndpointReference onvif.EndpointReferenceType
 
 //ReferenceParametersType in ws-addr
 type ReferenceParametersType struct { //wsa https://www.w3.org/2005/08/addressing/ws-addr.xsd
