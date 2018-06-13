@@ -15,6 +15,7 @@ import (
 	"github.com/use-go/goonvif"
 	"github.com/use-go/goonvif/gosoap"
 	"github.com/use-go/goonvif/networking"
+	"github.com/use-go/goonvif/ws-discovery"
 )
 
 func RunApi() {
@@ -177,6 +178,10 @@ func getEndpoint(service, xaddr string) (string, error) {
 		endpoint = dev.GetEndpoint("Media")
 	case "ptz":
 		endpoint = dev.GetEndpoint("PTZ")
+	case "recording":
+		endpoint = dev.GetEndpoint("Recording")
+	case "search":
+		endpoint = dev.GetEndpoint("Search")
 	}
 	return endpoint, nil
 }

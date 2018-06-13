@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://www.w3.org/2003/05/soap-envelope" 
+    xmlns:SOAP-ENC="http://www.w3.org/2003/05/soap-encoding" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" 
+    xmlns:wsa5="http://www.w3.org/2005/08/addressing" 
+    xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" 
+    xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" 
+    xmlns:tt="http://www.onvif.org/ver10/schema" 
+    xmlns:trc="http://www.onvif.org/ver10/recording/wsdl" 
+    xmlns:trp="http://www.onvif.org/ver10/replay/wsdl" 
+    xmlns:tse="http://www.onvif.org/ver10/search/wsdl" 
+    xmlns:ter="http://www.onvif.org/ver10/error">
+    <SOAP-ENV:Header></SOAP-ENV:Header>
+    <SOAP-ENV:Body>
+        <tse:GetEventSearchResultsResponse>
+            <tse:ResultList>
+                <tt:SearchState>Queued</tt:SearchState>
+                <tt:Result>
+                    <tt:RecordingToken>recordstream&amp;startime=20180612T110224Z&amp;endtime=20180612T110343Z</tt:RecordingToken>
+                    <tt:TrackToken xsi:nil="true"/>
+                    <tt:Time>2018-06-12T11:02:24Z</tt:Time>
+                    <tt:Event xsi:nil="true"/>
+                    <tt:StartStateEvent>false</tt:StartStateEvent>
+                </tt:Result>
+                <tt:Result>
+                    <tt:RecordingToken>recordstream&amp;startime=20180612T223224Z&amp;endtime=20180612T223400Z</tt:RecordingToken>
+                    <tt:TrackToken xsi:nil="true"/>
+                    <tt:Time>2018-06-12T22:32:24Z</tt:Time>
+                    <tt:Event xsi:nil="true"/>
+                    <tt:StartStateEvent>false</tt:StartStateEvent>
+                </tt:Result>
+                <tt:Result>
+                    <tt:RecordingToken>recordstream&amp;startime=20180613T004944Z&amp;endtime=20180613T005116Z</tt:RecordingToken>
+                    <tt:TrackToken xsi:nil="true"/>
+                    <tt:Time>2018-06-13T00:49:44Z</tt:Time>
+                    <tt:Event xsi:nil="true"/>
+                    <tt:StartStateEvent>false</tt:StartStateEvent>
+                </tt:Result>
+                <tt:Result>
+                    <tt:RecordingToken>recordstream&amp;startime=20180613T005416Z&amp;endtime=20180613T005550Z</tt:RecordingToken>
+                    <tt:TrackToken xsi:nil="true"/>
+                    <tt:Time>2018-06-13T00:54:16Z</tt:Time>
+                    <tt:Event xsi:nil="true"/>
+                    <tt:StartStateEvent>false</tt:StartStateEvent>
+                </tt:Result>
+                <tt:Result>
+                    <tt:RecordingToken>recordstream&amp;startime=20180613T011801Z&amp;endtime=20180613T011931Z</tt:RecordingToken>
+                    <tt:TrackToken xsi:nil="true"/>
+                    <tt:Time>2018-06-13T01:18:01Z</tt:Time>
+                    <tt:Event xsi:nil="true"/>
+                    <tt:StartStateEvent>false</tt:StartStateEvent>
+                </tt:Result>
+                <tt:Result>
+                    <tt:RecordingToken>recordstream&amp;startime=20180613T013149Z&amp;endtime=20180613T013323Z</tt:RecordingToken>
+                    <tt:TrackToken xsi:nil="true"/>
+                    <tt:Time>2018-06-13T01:31:49Z</tt:Time>
+                    <tt:Event xsi:nil="true"/>
+                    <tt:StartStateEvent>false</tt:StartStateEvent>
+                </tt:Result>
+                <tt:Result>
+                    <tt:RecordingToken>recordstream&amp;startime=20180613T014608Z&amp;endtime=20180613T014743Z</tt:RecordingToken>
+                    <tt:TrackToken xsi:nil="true"/>
+                    <tt:Time>2018-06-13T01:46:08Z</tt:Time>
+                    <tt:Event xsi:nil="true"/>
+                    <tt:StartStateEvent>false</tt:StartStateEvent>
+                </tt:Result>
+                <tt:Result>
+                    <tt:RecordingToken>recordstream&amp;startime=20180613T015026Z&amp;endtime=20180613T015158Z</tt:RecordingToken>
+                    <tt:TrackToken xsi:nil="true"/>
+                    <tt:Time>2018-06-13T01:50:26Z</tt:Time>
+                    <tt:Event xsi:nil="true"/>
+                    <tt:StartStateEvent>false</tt:StartStateEvent>
+                </tt:Result>
+                <tt:Result>
+                    <tt:RecordingToken>recordstream&amp;startime=20180613T015334Z&amp;endtime=20180613T015742Z</tt:RecordingToken>
+                    <tt:TrackToken xsi:nil="true"/>
+                    <tt:Time>2018-06-13T01:53:34Z</tt:Time>
+                    <tt:Event xsi:nil="true"/>
+                    <tt:StartStateEvent>false</tt:StartStateEvent>
+                </tt:Result>
+                <tt:Result>
+                    <tt:RecordingToken>recordstream&amp;startime=20180613T015850Z&amp;endtime=20180613T020023Z</tt:RecordingToken>
+                    <tt:TrackToken xsi:nil="true"/>
+                    <tt:Time>2018-06-13T01:58:50Z</tt:Time>
+                    <tt:Event xsi:nil="true"/>
+                    <tt:StartStateEvent>false</tt:StartStateEvent>
+                </tt:Result>
+                <tt:Result>
+                    <tt:RecordingToken>recordstream&amp;startime=20180613T030729Z&amp;endtime=20180613T030857Z</tt:RecordingToken>
+                    <tt:TrackToken xsi:nil="true"/>
+                    <tt:Time>2018-06-13T03:07:29Z</tt:Time>
+                    <tt:Event xsi:nil="true"/>
+                    <tt:StartStateEvent>false</tt:StartStateEvent>
+                </tt:Result>
+                <tt:Result>
+                    <tt:RecordingToken>recordstream&amp;startime=20180613T032159Z&amp;endtime=20180613T032729Z</tt:RecordingToken>
+                    <tt:TrackToken xsi:nil="true"/>
+                    <tt:Time>2018-06-13T03:21:59Z</tt:Time>
+                    <tt:Event xsi:nil="true"/>
+                    <tt:StartStateEvent>false</tt:StartStateEvent>
+                </tt:Result>
+            </tse:ResultList>
+        </tse:GetEventSearchResultsResponse>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

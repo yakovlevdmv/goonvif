@@ -51,6 +51,8 @@ var Xlmns = map[string]string{
 	"wsaw":         "http://www.w3.org/2006/05/addressing/wsdl",
 	"onvif":        "http://www.onvif.org/ver10/schema",
 	"tnshoneywell": "http://www.honeywell.com/acs/security",
+	"trc":          "http://www.onvif.org/ver10/recording/wsdl",
+	"tse":          "http://www.onvif.org/ver10/search/wsdl",
 }
 
 //DeviceType alias for int
@@ -159,12 +161,14 @@ func NewDevice(xaddr string) (*Device, error) {
 	dev.xaddr = xaddr
 	dev.endpoints = make(map[string]string)
 	dev.addEndpoint("Device", "http://"+xaddr+"/onvif/device_service")
+	dev.addEndpoint("Search", "http://"+xaddr+"/onvif/Search_service")
+	dev.addEndpoint("Recording", "http://"+xaddr+"/onvif/recording_service")
 
 	getCapabilities := device.GetCapabilities{Category: "All"}
 
 	resp, err := dev.CallMethod(getCapabilities)
-	//fmt.Println(resp.Request.Host)
-	//fmt.Println(readResponse(resp))
+	// fmt.Println(resp.Request.Host)
+	// fmt.Println(readResponse(resp))
 	if err != nil || resp.StatusCode != http.StatusOK {
 		return nil, errors.New("camera is not available at " + xaddr + " or it does not support ONVIF services")
 	}
@@ -213,7 +217,6 @@ func buildMethodSOAP(msg string) (gosoap.SoapMessage, error) {
 
 //getEndpoint functions get the target service endpoint in a better way
 func (dev Device) getEndpoint(endpoint string) (string, error) {
-
 	// common condition, endpointMark in map we use this.
 	if endpointURL, bFound := dev.endpoints[endpoint]; bFound {
 		return endpointURL, nil
