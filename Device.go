@@ -80,26 +80,6 @@ func (devType DeviceType) String() string {
 	}
 }
 
-//deviceInfo struct contains general information about ONVIF device
-type deviceInfo struct {
-	Manufacturer    string
-	Model           string
-	FirmwareVersion string
-	SerialNumber    string
-	HardwareID      string
-}
-
-//Device for a new device of onvif and deviceInfo
-//struct represents an abstract ONVIF device.
-//It contains methods, which helps to communicate with ONVIF device
-type Device struct {
-	xaddr     string
-	login     string
-	password  string
-	endpoints map[string]string
-	info      deviceInfo
-}
-
 //GetServices return available endpoints
 func (dev *Device) GetServices() map[string]string {
 	return dev.endpoints
@@ -124,7 +104,7 @@ func GetAvailableDevicesAtSpecificEthernetInterface(interfaceName string) []Devi
 	for _, j := range devices {
 		doc := etree.NewDocument()
 		if err := doc.ReadFromString(j); err != nil {
-			fmt.Errorf("%s", err.Error())
+			//fmt.Errorf("%s", err.Error())
 			return nil
 		}
 		////fmt.Println(j)

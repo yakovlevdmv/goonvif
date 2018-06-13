@@ -313,7 +313,7 @@ func xmlProcessing(tg string) (string, error) {
 		return str[1][0:omitAttr], nil
 	}
 
-	return "", errors.New("something went wrong")
+	//	return "", errors.New("something went wrong")
 }
 
 func mapProcessing(mapVar []map[string]string) []map[string]string {
