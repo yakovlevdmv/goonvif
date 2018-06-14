@@ -53,6 +53,7 @@ var Xlmns = map[string]string{
 	"tnshoneywell": "http://www.honeywell.com/acs/security",
 	"trc":          "http://www.onvif.org/ver10/recording/wsdl",
 	"tse":          "http://www.onvif.org/ver10/search/wsdl",
+	"trp":          "http://www.onvif.org/ver10/replay/wsdl",
 }
 
 //DeviceType alias for int
@@ -163,6 +164,7 @@ func NewDevice(xaddr string) (*Device, error) {
 	dev.addEndpoint("Device", "http://"+xaddr+"/onvif/device_service")
 	dev.addEndpoint("Search", "http://"+xaddr+"/onvif/Search_service")
 	dev.addEndpoint("Recording", "http://"+xaddr+"/onvif/recording_service")
+	dev.addEndpoint("Replay", "http://"+xaddr+"/onvif/replay_service")
 
 	getCapabilities := device.GetCapabilities{Category: "All"}
 

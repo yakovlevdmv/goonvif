@@ -182,6 +182,8 @@ func getEndpoint(service, xaddr string) (string, error) {
 		endpoint = dev.GetEndpoint("Recording")
 	case "search":
 		endpoint = dev.GetEndpoint("Search")
+	case "replay":
+		endpoint = dev.GetEndpoint("Replay")
 	}
 	return endpoint, nil
 }

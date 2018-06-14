@@ -7,6 +7,7 @@ import (
 	ptz "github.com/use-go/goonvif/PTZ"
 	"github.com/use-go/goonvif/device"
 	"github.com/use-go/goonvif/recording"
+	"github.com/use-go/goonvif/replay"
 	"github.com/use-go/goonvif/search"
 )
 
@@ -445,5 +446,14 @@ func getRecordingStructByName(name string) (interface{}, error) {
 		return &recording.GetRecordings{}, nil
 	default:
 		return nil, errors.New("there is no such method in the Recording service")
+	}
+}
+
+func getReplayStructByName(name string) (interface{}, error) {
+	switch name {
+	case "GetReplayUri":
+		return &replay.GetReplayUri{}, nil
+	default:
+		return nil, errors.New("there is no such method in the Replay service")
 	}
 }

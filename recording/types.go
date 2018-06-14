@@ -34,3 +34,13 @@ type GetRecordingsResponse struct {
 		}
 	}
 }
+
+type GetRecordingJobs struct {
+	XMLName string `xml:"trc:GetRecordingJobs"`
+}
+
+type GetRecordingJobsResponse struct {
+	JobItem []struct {
+		JobToken onvif.RecordingJobRefence
+	}
+}
