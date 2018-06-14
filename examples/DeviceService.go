@@ -45,19 +45,19 @@ func main() {
 	}
 
 	//Commands execution
-	systemDateAndTymeResponse, err := dev.CallMethod(systemDateAndTyme)
+	systemDateAndTymeResponse, err := dev.CallMethod(systemDateAndTyme, nil)
 	if err != nil {
 		log.Println(err)
 	} else {
 		fmt.Println(readResponse(systemDateAndTymeResponse))
 	}
-	getCapabilitiesResponse, err := dev.CallMethod(getCapabilities)
+	getCapabilitiesResponse, err := dev.CallMethod(getCapabilities, nil)
 	if err != nil {
 		log.Println(err)
 	} else {
 		fmt.Println(readResponse(getCapabilitiesResponse))
 	}
-	createUserResponse, err := dev.CallMethod(createUser)
+	createUserResponse, err := dev.CallMethod(createUser, nil)
 	if err != nil {
 		log.Println(err)
 	} else {

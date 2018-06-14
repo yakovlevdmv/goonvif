@@ -20,6 +20,7 @@ The following services are fully implemented:
 - Imaging
 
 ### under development
+
 - Event
 
 ## Using
@@ -94,5 +95,5 @@ To perform any function of one of the ONVIF services whose structure has been de
 createUsers := Device.CreateUsers{User: onvif.User{Username:"admin", Password:"qwerty", UserLevel:"User"}}
 device := onvif.NewDevice("192.168.13.42:1234")
 device.Authenticate("username", "password")
-resp, err := dev.CallMethod(createUsers)
+resp, err := dev.CallMethod(createUsers,nil) //usually we needn't headers
 ```

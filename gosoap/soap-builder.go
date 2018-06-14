@@ -211,22 +211,6 @@ func (msg *SoapMessage) AddRootNamespaces(namespaces map[string]string) {
 	for key, value := range namespaces {
 		msg.AddRootNamespace(key, value)
 	}
-
-	/*
-		doc := etree.NewDocument()
-		if err := doc.ReadFromString(msg.String()); err != nil {
-			//log.Println(err.Error())
-			return err
-		}
-
-		for key, value := range namespaces {
-			doc.Root().CreateAttr("xmlns:" + key, value)
-		}
-
-		doc.IndentTabs()
-		res, _ := doc.WriteToString()
-
-		*msg = SoapMessage(res)*/
 }
 
 func buildSoapRoot() *etree.Document {
@@ -242,6 +226,19 @@ func buildSoapRoot() *etree.Document {
 	env.CreateAttr("xmlns:SOAP-ENC", "http://www.w3.org/2003/05/soap-encoding")
 
 	return doc
+}
+
+//AddHeadFileds  from map
+func (msg *SoapMessage) AddHeadFileds(headsFields map[string]string) {
+
+	for k, v := range headsFields {
+		section := getHeaderSectionfrom(k, v)
+		if section != nil {
+			msg.addHeadSection(section)
+		}
+
+	}
+
 }
 
 //AddWSSecurity Header for soapMessage
@@ -281,7 +278,7 @@ func (msg *SoapMessage) getActionURL() string {
 	return ""
 }
 
-//AddHeadSection add head node in heads
+//addHeadSection add head node in heads
 func (msg *SoapMessage) addHeadSection(headerSction interface{}) {
 
 	soapReq, err := xml.MarshalIndent(headerSction, "", "  ")

@@ -168,7 +168,7 @@ func NewDevice(xaddr string) (*Device, error) {
 
 	getCapabilities := device.GetCapabilities{Category: "All"}
 
-	resp, err := dev.CallMethod(getCapabilities)
+	resp, err := dev.CallMethod(getCapabilities, nil)
 	// fmt.Println(resp.Request.Host)
 	// fmt.Println(readResponse(resp))
 	if err != nil || resp.StatusCode != http.StatusOK {
@@ -239,7 +239,7 @@ func (dev Device) getEndpoint(endpoint string) (string, error) {
 
 //CallMethod functions call an method, defined <method> struct.
 //You should use Authenticate method to call authorized requests.
-func (dev Device) CallMethod(method interface{}) (*http.Response, error) {
+func (dev Device) CallMethod(method interface{}, headerFileds map[string]string) (*http.Response, error) {
 	pkgPath := strings.Split(reflect.TypeOf(method).PkgPath(), "/")
 	pkg := strings.ToLower(pkgPath[len(pkgPath)-1])
 
@@ -247,11 +247,11 @@ func (dev Device) CallMethod(method interface{}) (*http.Response, error) {
 	if err != nil {
 		return nil, err
 	}
-	return dev.callMethodDo(endpoint, method)
+	return dev.callMethodDo(endpoint, method, headerFileds)
 }
 
 //CallMethod functions call an method, defined <method> struct with authentication data
-func (dev Device) callMethodDo(endpoint string, method interface{}) (*http.Response, error) {
+func (dev Device) callMethodDo(endpoint string, method interface{}, headerFileds map[string]string) (*http.Response, error) {
 	/*
 		Converting <method> struct to xml string representation
 	*/
@@ -280,11 +280,15 @@ func (dev Device) callMethodDo(endpoint string, method interface{}) (*http.Respo
 	//Header handling for action
 	// this is not a must
 	//soap.AddAction()
-
 	//Auth Handling
 	if dev.login != "" && dev.password != "" {
 		soap.AddWSSecurity(dev.login, dev.password)
 	}
+
+	if headerFileds != nil {
+		soap.AddHeadFileds(headerFileds)
+	}
+
 	//fmt.Println(soap.StringIndent())
 	/*
 		Sending request and returns the response

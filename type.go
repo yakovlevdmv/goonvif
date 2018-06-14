@@ -15,7 +15,7 @@ type deviceInfo struct {
 type IOnvif interface {
 	Authenticate(username, password string)
 	GetEndpoint(name string) string
-	CallMethod(method interface{}) (*http.Response, error)
+	CallMethod(method interface{}, headerFields map[string]string) (*http.Response, error)
 	GetServices() map[string]string
 }
 
