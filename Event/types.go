@@ -31,9 +31,13 @@ type ActionType AttributedURIType
 type AttributedURIType xsd.AnyURI //wsa https://www.w3.org/2005/08/addressing/ws-addr.xsd
 
 //AbsoluteOrRelativeTimeType <xsd:union memberTypes="xsd:dateTime xsd:duration"/>
+/*
+   <wsnt:TerminationTime>
+      [xsd:dateTime | xsd:duration]
+   </wsnt:TerminationTime>
+*/
 type AbsoluteOrRelativeTimeType struct { //wsnt http://docs.oasis-open.org/wsn/b-2.xsd
-	xsd.DateTime
-	xsd.Duration
+	Value xsd.String `xml:",chardata"`
 }
 
 //EndpointReferenceType in ws-addr

@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
-	"log"
 
 	"github.com/beevik/etree"
 )
@@ -40,7 +39,7 @@ func GetBody(messageBody []byte, tdsName string) ([]byte, error) {
 		if err != nil {
 			return nil, err
 		}
-		log.Printf("%s\n", buf)
+		//	log.Printf("%s\n", buf)
 		return nil, errors.New(string(buf))
 	}
 
