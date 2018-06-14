@@ -54,27 +54,27 @@ type Unsubscribe struct { //http://docs.oasis-open.org/wsn/b-2.xsd
 
 //UnsubscribeResponse message for Unsubscribe event topic
 type UnsubscribeResponse struct { //http://docs.oasis-open.org/wsn/b-2.xsd
-	Any xsd.AnyType
+	XMLName struct{} `xml:"UnsubscribeResponse"`
 }
 
 //PauseSubscription action for PauseSubscription
 type PauseSubscription struct { //http://docs.oasis-open.org/wsn/b-2.xsd
-	Any xsd.AnyType
+	XMLName struct{} `xml:"PauseSubscription"`
 }
 
 //PauseSubscriptionResponse action for PauseSubscriptionResponse
 type PauseSubscriptionResponse struct { //http://docs.oasis-open.org/wsn/b-2.xsd
-	Any xsd.AnyType
+	XMLName struct{} `xml:"PauseSubscriptionResponse"`
 }
 
 //ResumeSubscription action for ResumeSubscription
 type ResumeSubscription struct { //http://docs.oasis-open.org/wsn/b-2.xsd
-	Any xsd.AnyType
+	XMLName struct{} `xml:"ResumeSubscription"`
 }
 
 //ResumeSubscriptionResponse action for ResumeSubscriptionResponse
 type ResumeSubscriptionResponse struct { //http://docs.oasis-open.org/wsn/b-2.xsd
-	Any xsd.AnyType
+	XMLName struct{} `xml:"ResumeSubscriptionResponse"`
 }
 
 //CreatePullPointSubscription action
