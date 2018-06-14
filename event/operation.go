@@ -37,6 +37,7 @@ type SubscribeResponse struct { //http://docs.oasis-open.org/wsn/b-2.xsd
 
 //Renew action for refresh event topic subscription
 type Renew struct { //http://docs.oasis-open.org/wsn/b-2.xsd
+	XMLName         struct{}                   `xml:"wsnt:Renew"`
 	TerminationTime AbsoluteOrRelativeTimeType `xml:"wsnt:TerminationTime"`
 }
 
@@ -48,7 +49,7 @@ type RenewResponse struct { //http://docs.oasis-open.org/wsn/b-2.xsd
 
 //Unsubscribe action for Unsubscribe event topic
 type Unsubscribe struct { //http://docs.oasis-open.org/wsn/b-2.xsd
-	Any xsd.AnyType
+	XMLName struct{} `xml:"wsnt:Unsubscribe"`
 }
 
 //UnsubscribeResponse message for Unsubscribe event topic

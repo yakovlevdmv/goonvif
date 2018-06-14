@@ -67,3 +67,20 @@ type EndpointReferenceType struct { //wsa http://www.w3.org/2005/08/addressing/w
 	//	ReferenceParameters ReferenceParametersType `xml:"wsa5:ReferenceParameters,omit"`
 	//	Metadata            MetadataType            `xml:"wsa5:Metadata,omit"`
 }
+
+//CodeType ...
+type CodeType struct {
+	Value xsd.String `xml:"Value"`
+}
+
+//ResonType ...
+type ResonType struct {
+	Lang xsd.String `xml:"lang,attr"`
+	Text xsd.String `xml:"Value"`
+}
+
+//Fault ..
+type Fault struct {
+	Code   CodeType  `xml:"Code"`
+	Reason ResonType `xml:"Reason"`
+}
