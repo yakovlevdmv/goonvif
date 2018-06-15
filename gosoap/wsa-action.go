@@ -15,8 +15,8 @@ const (
 	SubscribeActionValue          = "http://docs.oasis-open.org/wsn/bw-2/NotificationProducer/SubscribeRequest"
 	ResumeSubscriptionActionValue = "http://docs.oasis-open.org/wsn/bw-2/PausableSubscriptionManager/ResumeSubscriptionRequest"
 	PauseSubscriptionActionValue  = "http://docs.oasis-open.org/wsn/bw-2/PausableSubscriptionManager/PauseSubscriptionRequest"
-	UnsubscribeActionValue        = "http://docs.oasis-open.org/wsn/bw-2/PausableSubscriptionManager/UnsubscribeRequest"
-	RenewRequestActionValue       = "http://docs.oasis-open.org/wsn/bw-2/PausableSubscriptionManager/RenewRequest"
+	UnsubscribeActionValue        = "http://docs.oasis-open.org/wsn/bw-2/SubscriptionManager/UnsubscribeRequest"
+	RenewRequestActionValue       = "http://docs.oasis-open.org/wsn/bw-2/SubscriptionManager/RenewRequest"
 )
 
 //Xlmns XML Scheam
