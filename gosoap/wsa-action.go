@@ -37,14 +37,14 @@ var (
 //Action type
 type Action struct {
 	//XMLName xml.Name  `xml:"wsse:Security"`
-	XMLName xml.Name `xml:"wsa:Action"`
+	XMLName xml.Name `xml:"wsa5:Action"`
 	Value   string   `xml:",chardata"`
 }
 
 /*
-   <wsa:Action>
+   <wsa5:Action>
      http://docs.oasis-open.org/wsn/bw-2/NotificationProducer/SubscribeRequest
-   </wsa:Action>
+   </wsa5:Action>
 */
 
 //NewAction get a new Head Action Section
