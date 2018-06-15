@@ -4,14 +4,31 @@ import (
 	"encoding/xml"
 )
 
+//const string for event action
+const (
+	SubscribeAction          = "Subscribe"
+	UnsubscribeAction        = "Unsubscribe"
+	ResumeSubscriptionAction = "ResumeSubscription"
+	PauseSubscriptionAction  = "PauseSubscription"
+	RenewRequestAction       = "RenewRequest"
+
+	SubscribeActionValue          = "http://docs.oasis-open.org/wsn/bw-2/NotificationProducer/SubscribeRequest"
+	ResumeSubscriptionActionValue = "http://docs.oasis-open.org/wsn/bw-2/PausableSubscriptionManager/ResumeSubscriptionRequest"
+	PauseSubscriptionActionValue  = "http://docs.oasis-open.org/wsn/bw-2/PausableSubscriptionManager/PauseSubscriptionRequest"
+	UnsubscribeActionValue        = "http://docs.oasis-open.org/wsn/bw-2/PausableSubscriptionManager/UnsubscribeRequest"
+	RenewRequestActionValue       = "http://docs.oasis-open.org/wsn/bw-2/PausableSubscriptionManager/RenewRequest"
+)
+
 //Xlmns XML Scheam
-var actionHeaders = map[string]string{
-	"Subscribe":          "http://docs.oasis-open.org/wsn/bw-2/NotificationProducer/SubscribeRequest",
-	"ResumeSubscription": "http://docs.oasis-open.org/wsn/bw-2/PausableSubscriptionManager/ResumeSubscriptionRequest",
-	"PauseSubscription":  "http://docs.oasis-open.org/wsn/bw-2/PausableSubscriptionManager/PauseSubscriptionRequest",
-	"Unsubscribe":        "http://docs.oasis-open.org/wsn/bw-2/PausableSubscriptionManager/UnsubscribeRequest",
-	"RenewRequest":       "http://docs.oasis-open.org/wsn/bw-2/PausableSubscriptionManager/RenewRequest",
-}
+var (
+	ActionHeaders = map[string]string{
+		SubscribeAction:          SubscribeActionValue,
+		ResumeSubscriptionAction: ResumeSubscriptionActionValue,
+		PauseSubscriptionAction:  PauseSubscriptionActionValue,
+		UnsubscribeAction:        UnsubscribeActionValue,
+		RenewRequestAction:       RenewRequestActionValue,
+	}
+)
 
 /*************************
 	Action Type in Header
@@ -20,7 +37,7 @@ var actionHeaders = map[string]string{
 //Action type
 type Action struct {
 	//XMLName xml.Name  `xml:"wsse:Security"`
-	XMLName xml.Name `xml:"wsa5:Action"`
+	XMLName xml.Name `xml:"wsa:Action"`
 	Value   string   `xml:",chardata"`
 }
 

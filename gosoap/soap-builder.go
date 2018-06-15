@@ -2,9 +2,7 @@ package gosoap
 
 import (
 	"encoding/xml"
-	"errors"
 	"log"
-	"strings"
 
 	"github.com/beevik/etree"
 )
@@ -247,36 +245,36 @@ func (msg *SoapMessage) AddWSSecurity(username, password string) {
 	msg.addHeadSection(security)
 }
 
-//AddAction Header handling for soapMessage
-func (msg *SoapMessage) AddAction() {
+// //AddAction Header handling for soapMessage
+// func (msg *SoapMessage) AddAction() {
 
-	urlString := msg.getActionURL()
-	if urlString != "" {
-		//GetAction Header
-		actionHeader := NewAction(urlString)
-		msg.addHeadSection(actionHeader)
-	}
+// 	urlString := msg.getActionURL()
+// 	if urlString != "" {
+// 		//GetAction Header
+// 		actionHeader := NewAction(urlString)
+// 		msg.addHeadSection(actionHeader)
+// 	}
 
-}
+// }
 
-//AddHeadSection add head node in heads
-func (msg *SoapMessage) getActionURL() string {
+// //AddHeadSection add head node in heads
+// func (msg *SoapMessage) getActionURL() string {
 
-	doc := etree.NewDocument()
-	if err := doc.ReadFromString(msg.String()); err != nil {
-		log.Println(err.Error())
-	}
-	opertaion := doc.Root().SelectElement("Body").FindElement("./[1]/*")
-	if opertaion.Tag == "" {
-		panic(errors.New("bad request body"))
-	}
-	for k, v := range actionHeaders {
-		if bEqual := strings.EqualFold(k, opertaion.Tag); bEqual {
-			return v
-		}
-	}
-	return ""
-}
+// 	doc := etree.NewDocument()
+// 	if err := doc.ReadFromString(msg.String()); err != nil {
+// 		log.Println(err.Error())
+// 	}
+// 	opertaion := doc.Root().SelectElement("Body").FindElement("./[1]/*")
+// 	if opertaion.Tag == "" {
+// 		panic(errors.New("bad request body"))
+// 	}
+// 	for k, v := range ActionHeaders {
+// 		if bEqual := strings.EqualFold(k, opertaion.Tag); bEqual {
+// 			return v
+// 		}
+// 	}
+// 	return ""
+// }
 
 //addHeadSection add head node in heads
 func (msg *SoapMessage) addHeadSection(headerSction interface{}) {
