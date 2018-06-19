@@ -6,8 +6,7 @@ package gosoap
 
 //To type
 type To struct {
-	//XMLName xml.Name  `xml:"wsse:Security"`
-	XMLName struct{} `xml:"wsa:To"`
+	XMLName struct{} `xml:"wsa5:To"`
 	Value   string   `xml:",chardata"`
 }
 
