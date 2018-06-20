@@ -4,6 +4,8 @@ import (
 	"crypto/sha1"
 	"encoding/base64"
 	"encoding/xml"
+	"io"
+	"math/rand"
 	"time"
 
 	"github.com/elgs/gostrgen"
@@ -17,6 +19,13 @@ const (
 	encodingType      = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary"
 	wssecuritySecext  = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
 	wssecurityUtility = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+)
+
+const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+const (
+	letterIdxBits = 6                    // 6 bits to represent a letter index
+	letterIdxMask = 1<<letterIdxBits - 1 // All 1-bits, as many as letterIdxBits
+	letterIdxMax  = 63 / letterIdxBits   // # of letter indices fitting in 63 bits
 )
 
 //Security type :XMLName xml.Name `xml:"http://purl.org/rss/1.0/modules/content/ encoded"`
@@ -98,4 +107,34 @@ func generateToken(Username string, Nonce string, Created time.Time, Password st
 	hasher.Write([]byte(string(sDec) + Created.Format(time.RFC3339Nano) + Password))
 
 	return base64.StdEncoding.EncodeToString(hasher.Sum(nil))
+}
+
+func generatePasswdDigest(nonce, date, passwd string) string {
+	h := sha1.New()
+	io.WriteString(h, nonce)
+	io.WriteString(h, date)
+	io.WriteString(h, passwd)
+	res := h.Sum(nil)
+	return base64.StdEncoding.EncodeToString(res)
+}
+
+//randStringBytesMaskImprSrc random bytes
+//nonce := RandStringBytesMaskImprSrc(8)
+func randStringBytesMaskImprSrc(n int) []byte {
+	nonce := make([]byte, n)
+	srcRand := rand.NewSource(time.Now().UnixNano())
+	// A src.Int63() generates 63 random bits, enough for letterIdxMax characters!
+	for i, cache, remain := n-1, srcRand.Int63(), letterIdxMax; i >= 0; {
+		if remain == 0 {
+			cache, remain = srcRand.Int63(), letterIdxMax
+		}
+		if idx := int(cache & letterIdxMask); idx < len(letterBytes) {
+			nonce[i] = letterBytes[idx]
+			i--
+		}
+		cache >>= letterIdxBits
+		remain--
+	}
+
+	return nonce
 }
