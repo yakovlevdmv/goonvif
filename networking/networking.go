@@ -8,7 +8,6 @@ import (
 	"time"
 
 	httpCli "github.com/gojektech/heimdall"
-	"honeywell.com/husplus/onvif-profiles-service/config"
 )
 
 //SendSoap message
@@ -47,7 +46,7 @@ func SendSoapEx(connect ConnectParameter, message string) ([]byte, error) {
 	if len(connect.Address) > 0 {
 		url = connect.Address
 	} else {
-		url = config.HTTPPrefix + connect.Host + connect.URL
+		url = "http://" + connect.Host + connect.URL
 	}
 
 	resp, err := HTTPPostEx(url, message, connect.Timeout)
