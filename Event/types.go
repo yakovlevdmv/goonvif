@@ -73,17 +73,277 @@ type MetadataType struct { //wsa https://www.w3.org/2005/08/addressing/ws-addr.x
 	//Here can be anyAttribute
 }
 
-//TopicSet alias
-type TopicSet TopicSetType //wstop http://docs.oasis-open.org/wsn/t-1.xsd
+//HeartbeatType ...
+type HeartbeatType struct {
+	MessageDescription onvif.MessageDescriptionType `xml:"MessageDescription"`
+}
+
+//DigitalInputType ...
+type DigitalInputType struct {
+	Topic              xsd.String                   `xml:"topic,attr"`
+	MessageDescription onvif.MessageDescriptionType `xml:"MessageDescription"`
+}
+
+//RelayType ...
+type RelayType struct {
+	Topic              xsd.String                   `xml:"topic,attr"`
+	MessageDescription onvif.MessageDescriptionType `xml:"MessageDescription"`
+}
+
+//TriggerType ...
+type TriggerType struct {
+	Topic        xsd.String       `xml:"topic,attr"`
+	DigitalInput DigitalInputType `xml:"DigitalInput"`
+	Relay        RelayType        `xml:"Relay"`
+}
+
+//DeviceType for event
+type DeviceType struct { //wstop http://docs.oasis-open.org/wsn/t-1.xsd
+	Topic     xsd.String    `xml:"topic,attr"`
+	Heartbeat HeartbeatType `xml:"Heartbeat"`
+	Trigger   TriggerType   `xml:"Trigger"`
+}
+
+//MotionAlarmType ...
+type MotionAlarmType struct {
+	MessageDescription onvif.MessageDescriptionType `xml:"MessageDescription"`
+}
+
+//SignalLossType ...
+type SignalLossType struct {
+	MessageDescription onvif.MessageDescriptionType `xml:"MessageDescription"`
+}
+
+//ShadingType ...
+type ShadingType struct {
+	MessageDescription onvif.MessageDescriptionType `xml:"MessageDescription"`
+}
+
+//AnalyticsServiceType ...
+type AnalyticsServiceType struct {
+	MessageDescription onvif.MessageDescriptionType `xml:"MessageDescription"`
+}
+
+//ImagingServiceType ...
+type ImagingServiceType struct {
+	MessageDescription onvif.MessageDescriptionType `xml:"MessageDescription"`
+}
+
+//RecordingServiceType ...
+type RecordingServiceType struct {
+	MessageDescription onvif.MessageDescriptionType `xml:"MessageDescription"`
+}
+
+//ImageTooBrightType ...
+type ImageTooBrightType struct {
+	AnalyticsService AnalyticsServiceType `xml:"AnalyticsService"`
+	ImagingService   ImagingServiceType   `xml:"ImagingService"`
+	RecordingService RecordingServiceType `xml:"RecordingService"`
+}
+
+//ImageTooBlurryType ...
+type ImageTooBlurryType struct {
+	AnalyticsService AnalyticsServiceType `xml:"AnalyticsService"`
+	ImagingService   ImagingServiceType   `xml:"ImagingService"`
+	RecordingService RecordingServiceType `xml:"RecordingService"`
+}
+
+//ImageTooDarkType ...
+type ImageTooDarkType struct {
+	AnalyticsService AnalyticsServiceType `xml:"AnalyticsService"`
+	ImagingService   ImagingServiceType   `xml:"ImagingService"`
+	RecordingService RecordingServiceType `xml:"RecordingService"`
+}
+
+//ImageColorCastType ...
+type ImageColorCastType struct {
+	AnalyticsService AnalyticsServiceType `xml:"AnalyticsService"`
+	ImagingService   ImagingServiceType   `xml:"ImagingService"`
+	RecordingService RecordingServiceType `xml:"RecordingService"`
+}
+
+//VideoSourceType for event
+type VideoSourceType struct { //wstop http://docs.oasis-open.org/wsn/t-1.xsd
+	Topic          xsd.String         `xml:"topic,attr"`
+	MotionAlarm    MotionAlarmType    `xml:"MotionAlarm"`
+	SignalLoss     SignalLossType     `xml:"SignalLoss"`
+	Shading        ShadingType        `xml:"Shading"`
+	ImageTooBlurry ImageTooBlurryType `xml:"ImageTooBlurry"`
+	ImageTooDark   ImageTooDarkType   `xml:"ImageTooDark"`
+	ImageColorCast ImageColorCastType `xml:"ImageColorCast"`
+}
+
+//CrossedType ...
+type CrossedType struct {
+	MessageDescription onvif.MessageDescriptionType `xml:"MessageDescription"`
+}
+
+//LineDetectorType ...
+type LineDetectorType struct {
+	Crossed CrossedType `xml:"Crossed"`
+}
+
+//ObjectsInsideType ...
+type ObjectsInsideType struct {
+	Topic              xsd.String                   `xml:"topic,attr"`
+	MessageDescription onvif.MessageDescriptionType `xml:"MessageDescription"`
+}
+
+//ObjectsOutsideType ...
+type ObjectsOutsideType struct {
+	Topic              xsd.String                   `xml:"topic,attr"`
+	MessageDescription onvif.MessageDescriptionType `xml:"MessageDescription"`
+}
+
+//ObjectsInsideOrOutsideType ...
+type ObjectsInsideOrOutsideType struct {
+	Topic              xsd.String                   `xml:"topic,attr"`
+	MessageDescription onvif.MessageDescriptionType `xml:"MessageDescription"`
+}
+
+//ObjectsLoiteringType ...
+type ObjectsLoiteringType struct {
+	Topic              xsd.String                   `xml:"topic,attr"`
+	MessageDescription onvif.MessageDescriptionType `xml:"MessageDescription"`
+}
+
+//FieldDetectorType ...
+type FieldDetectorType struct {
+	ObjectsInside          ObjectsInsideType          `xml:"ObjectsInside"`
+	ObjectsOutside         ObjectsOutsideType         `xml:"ObjectsOutside"`
+	ObjectsInsideOrOutside ObjectsInsideOrOutsideType `xml:"ObjectsInsideOrOutside"`
+	ObjectsLoitering       ObjectsLoiteringType       `xml:"ObjectsLoitering"`
+}
+
+//ObjectsTokenType ...
+type ObjectsTokenType struct {
+	Topic              xsd.String                   `xml:"topic,attr"`
+	MessageDescription onvif.MessageDescriptionType `xml:"MessageDescription"`
+}
+
+//ObjectsLeaveType ...
+type ObjectsLeaveType struct {
+	Topic              xsd.String                   `xml:"topic,attr"`
+	MessageDescription onvif.MessageDescriptionType `xml:"MessageDescription"`
+}
+
+//ObjectsTokenOrLeaveType ...
+type ObjectsTokenOrLeaveType struct {
+	Topic              xsd.String                   `xml:"topic,attr"`
+	MessageDescription onvif.MessageDescriptionType `xml:"MessageDescription"`
+}
+
+//ObjectDetectorType ...
+type ObjectDetectorType struct {
+	ObjectsToken        ObjectsTokenType        `xml:"ObjectsToken"`
+	ObjectsLeave        ObjectsLeaveType        `xml:"ObjectsLeave"`
+	ObjectsTokenOrLeave ObjectsTokenOrLeaveType `xml:"ObjectsTokenOrLeave"`
+}
+
+//CounterType ...
+type CounterType struct {
+	Topic              xsd.String                   `xml:"topic,attr"`
+	MessageDescription onvif.MessageDescriptionType `xml:"MessageDescription"`
+}
+
+//CountAggregationType ...
+type CountAggregationType struct {
+	Counter CounterType `xml:"Counter"`
+}
+
+//FireDetectorType ...
+type FireDetectorType struct {
+	Topic              xsd.String                   `xml:"topic,attr"`
+	MessageDescription onvif.MessageDescriptionType `xml:"MessageDescription"`
+}
+
+//PlateDetectorType ...
+type PlateDetectorType struct {
+	Topic              xsd.String                   `xml:"topic,attr"`
+	MessageDescription onvif.MessageDescriptionType `xml:"MessageDescription"`
+}
+
+//FaceDetectorType ...
+type FaceDetectorType struct {
+	Topic              xsd.String                   `xml:"topic,attr"`
+	MessageDescription onvif.MessageDescriptionType `xml:"MessageDescription"`
+}
+
+//FaceAnalysisType ...
+type FaceAnalysisType struct {
+	FaceDetector FaceDetectorType `xml:"FaceDetector"`
+}
+
+//MotionType ...
+type MotionType struct {
+	Topic              xsd.String                   `xml:"topic,attr"`
+	MessageDescription onvif.MessageDescriptionType `xml:"MessageDescription"`
+}
+
+//CellMotionDetectorType ...
+type CellMotionDetectorType struct {
+	FaceDetector MotionType `xml:"FaceDetector"`
+}
+
+//RuleEngineType for event
+type RuleEngineType struct {
+	LineDetector       LineDetectorType       `xml:"LineDetector"`
+	FieldDetector      FieldDetectorType      `xml:"FieldDetector"`
+	ObjectDetector     ObjectDetectorType     `xml:"ObjectDetector"`
+	CountAggregation   CountAggregationType   `xml:"CountAggregation"`
+	FireDetector       FireDetectorType       `xml:"FireDetector"`
+	PlateDetector      PlateDetectorType      `xml:"PlateDetector"`
+	FaceAnalysis       FaceAnalysisType       `xml:"FaceAnalysis"`
+	CellMotionDetector CellMotionDetectorType `xml:"CellMotionDetector"`
+}
+
+//ProfileChangedType ...
+type ProfileChangedType struct {
+	Topic              xsd.String                   `xml:"topic,attr"`
+	MessageDescription onvif.MessageDescriptionType `xml:"MessageDescription"`
+}
+
+//ConfigurationChangedType ...
+type ConfigurationChangedType struct {
+	Topic              xsd.String                   `xml:"topic,attr"`
+	MessageDescription onvif.MessageDescriptionType `xml:"MessageDescription"`
+}
+
+//MediaType for event
+type MediaType struct {
+	ProfileChanged       ProfileChangedType       `xml:"ProfileChanged"`
+	ConfigurationChanged ConfigurationChangedType `xml:"ConfigurationChanged"`
+}
+
+//ActiveConnectionsType ...
+type ActiveConnectionsType struct {
+	Topic              xsd.String                   `xml:"topic,attr"`
+	MessageDescription onvif.MessageDescriptionType `xml:"MessageDescription"`
+}
+
+//ProfileType ...
+type ProfileType struct {
+	ActiveConnections ActiveConnectionsType `xml:"ActiveConnections"`
+}
+
+//MonitoringType for event
+type MonitoringType struct {
+	Profile ProfileType `xml:"Profile"`
+}
 
 //TopicSetType alias
-type TopicSetType struct { //wstop http://docs.oasis-open.org/wsn/t-1.xsd
-	ExtensibleDocumented
+type TopicSetType struct {
+	Device      DeviceType      `xml:"Device"`
+	VideoSource VideoSourceType `xml:"VideoSource"`
+	RuleEngine  RuleEngineType  `xml:"RuleEngine"`
+	Media       MediaType       `xml:"Media"`
+	Monitoring  MonitoringType  `xml:"Monitoring"`
+	//ExtensibleDocumented
 	//here can be any element
 }
 
 //ExtensibleDocumented struct
-type ExtensibleDocumented struct { //wstop http://docs.oasis-open.org/wsn/t-1.xsd
+type ExtensibleDocumented struct {
 	Documentation Documentation //к xsd-документе documentation с маленькой буквы начинается
 	//here can be anyAttribute
 }

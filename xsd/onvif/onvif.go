@@ -30,6 +30,7 @@ type ReferenceToken xsd.String
 //Name from xsd.string
 type Name xsd.String
 
+//Color ..
 type Color struct {
 	X          float64    `xml:"X,attr"`
 	Y          float64    `xml:"Y,attr"`
@@ -37,6 +38,7 @@ type Color struct {
 	Colorspace xsd.AnyURI `xml:"Colorspace,attr"`
 }
 
+//BacklightCompensation ..
 type BacklightCompensation struct {
 	Mode  BacklightCompensationMode
 	Level float64
@@ -377,8 +379,8 @@ type CapabilitiesExtension2 xsd.AnyType
 
 //TODO: attribite <xs:attribute ref="xmime:contentType" use="optional"/>
 type BinaryData struct {
-	X    ContentType      `xml:"xmime:contentType,attr"`
-	Data xsd.Base64Binary `xml:"onvif:Data"`
+	X    ContentType      `xml:"contentType,attr"`
+	Data xsd.Base64Binary `xml:"Data"`
 }
 
 type RelayOutput struct {
@@ -387,16 +389,49 @@ type RelayOutput struct {
 }
 
 type RelayOutputSettings struct {
-	Mode      RelayMode      `xml:"onvif:Mode"`
-	DelayTime xsd.Duration   `xml:"onvif:DelayTime"`
-	IdleState RelayIdleState `xml:"onvif:IdleState"`
+	Mode      RelayMode      `xml:"Mode"`
+	DelayTime xsd.Duration   `xml:"DelayTime"`
+	IdleState RelayIdleState `xml:"IdleState"`
 }
+
+//RelayIdleState ..
 
 //TODO:enumeration
 type RelayIdleState xsd.String
 
+//RelayMode ..
 //TODO: enumeration
 type RelayMode xsd.String
 
+//RelayLogicalState ..
 //TODO: enumeration
 type RelayLogicalState xsd.String
+
+//SimpleItemDescriptionType ..
+type SimpleItemDescriptionType struct {
+	Name xsd.String `xml:"Name,attr"`
+	Type xsd.String `xml:"Type,attr"`
+}
+
+//SourceType ..
+type SourceType struct {
+	SimpleItemDescription []SimpleItemDescriptionType `xml:"SimpleItemDescription"`
+}
+
+//KeyType ..
+type KeyType struct {
+	SimpleItemDescription []SimpleItemDescriptionType `xml:"SimpleItemDescription"`
+}
+
+//DataType ..
+type DataType struct {
+	SimpleItemDescription []SimpleItemDescriptionType `xml:"SimpleItemDescription"`
+}
+
+//MessageDescriptionType ..
+type MessageDescriptionType struct {
+	IsProperty xsd.Boolean `xml:"IsProperty,attr"`
+	Data       DataType    `xml:"Data"`
+	Key        KeyType     `xml:"Key"`
+	Source     SourceType  `xml:"Source"`
+}

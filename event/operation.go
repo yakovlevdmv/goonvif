@@ -102,8 +102,8 @@ type GetEventProperties struct {
 type GetEventPropertiesResponse struct {
 	TopicNamespaceLocation          xsd.AnyURI
 	FixedTopicSet                   FixedTopicSet
-	TopicSet                        TopicSet
-	TopicExpressionDialect          TopicExpressionDialect
+	TopicSet                        TopicSetType
+	TopicExpressionDialect          []TopicExpressionDialect
 	MessageContentFilterDialect     xsd.AnyURI
 	ProducerPropertiesFilterDialect xsd.AnyURI
 	MessageContentSchemaLocation    xsd.AnyURI
