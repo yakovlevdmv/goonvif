@@ -5,6 +5,22 @@ import (
 	"github.com/use-go/goonvif/xsd/onvif"
 )
 
+// Enum DialectTopic
+const (
+	DialectSimpleTopicExpression = iota
+	DialectConcreteTopicExpression
+	DialectConcreteSetTopicExpression
+)
+
+//GetEventPropertiesResponse Description ..
+const (
+	SimpleTopicExpressionDialect      = "http://docs.oasis-open.org/wsn/t-1/TopicExpression/Simple"
+	ConcreteTopicExpressionDialect    = "http://docs.oasis-open.org/wsn/t-1/TopicExpression/Concrete"
+	ConcreteSetTopicExpressionDialect = "http://www.onvif.org/ver10/tev/topicExpression/ConcreteSet"
+	MessageContentFilterDialect       = "http://www.onvif.org/ver10/tev/messageContentFilter/ItemFilter"
+	MessageContentSchemaLocation      = "http://www.onvif.org/onvif/ver10/schema/onvif.xsd"
+)
+
 //Address Alias
 type Address xsd.String
 
