@@ -4,6 +4,7 @@ import (
 	"github.com/use-go/goonvif/xsd"
 )
 
+//AnalyticsDeviceCapabilities ...
 type AnalyticsDeviceCapabilities struct {
 	XAddr       xsd.AnyURI
 	RuleSupport xsd.Boolean
@@ -18,4 +19,6 @@ type AnalyticsCapabilities struct {
 	RuleSupport            xsd.Boolean
 	AnalyticsModuleSupport xsd.Boolean
 }
+
+//AnalyticsEngineConfigurationExtension ...
 type AnalyticsEngineConfigurationExtension xsd.AnyType

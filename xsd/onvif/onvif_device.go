@@ -4,17 +4,19 @@ import (
 	"github.com/use-go/goonvif/xsd"
 )
 
+//RemoteUser ...
 type RemoteUser struct {
-	Username           string      `xml:"onvif:Username"`
-	Password           string      `xml:"onvif:Password"`
-	UseDerivedPassword xsd.Boolean `xml:"onvif:UseDerivedPassword"`
+	Username           string      `xml:"Username"`
+	Password           string      `xml:"Password"`
+	UseDerivedPassword xsd.Boolean `xml:"UseDerivedPassword"`
 }
 
+//User ...
 type User struct {
-	Username  string        `xml:"onvif:Username"`
-	Password  string        `xml:"onvif:Password"`
-	UserLevel UserLevel     `xml:"onvif:UserLevel"`
-	Extension UserExtension `xml:"onvif:Extension"`
+	Username  string        `xml:"Username"`
+	Password  string        `xml:"Password"`
+	UserLevel UserLevel     `xml:"UserLevel"`
+	Extension UserExtension `xml:"Extension"`
 }
 
 type UserLevel xsd.String
@@ -39,10 +41,10 @@ type LocationEntity struct {
 	Fixed            xsd.Boolean      `xml:"Fixed,attr"`
 	GeoSource        xsd.AnyURI       `xml:"GeoSource,attr"`
 	AutoGeo          xsd.Boolean      `xml:"AutoGeo,attr"`
-	GeoLocation      GeoLocation      `xml:"onvif:GeoLocation"`
-	GeoOrientation   GeoOrientation   `xml:"onvif:GeoOrientation"`
-	LocalLocation    LocalLocation    `xml:"onvif:LocalLocation"`
-	LocalOrientation LocalOrientation `xml:"onvif:LocalOrientation"`
+	GeoLocation      GeoLocation      `xml:"GeoLocation"`
+	GeoOrientation   GeoOrientation   `xml:"GeoOrientation"`
+	LocalLocation    LocalLocation    `xml:"LocalLocation"`
+	LocalOrientation LocalOrientation `xml:"LocalOrientation"`
 }
 
 type GeoLocation struct {
@@ -59,10 +61,12 @@ type OnvifVersion struct {
 
 type SetDateTimeType xsd.String
 
+//TimeZone ..
 type TimeZone struct {
-	TZ xsd.Token `xml:"onvif:TZ"`
+	TZ xsd.Token `xml:"TZ"`
 }
 
+//SystemDateTime ...
 type SystemDateTime struct {
 	DateTimeType    SetDateTimeType
 	DaylightSavings xsd.Boolean
