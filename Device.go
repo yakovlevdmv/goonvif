@@ -179,6 +179,31 @@ func NewDevice(xaddr string) (*Device, error) {
 	return dev, nil
 }
 
+//NewDeviceWithAuth function construct a ONVIF Device entity with username and password
+func NewDeviceWithAuth(xaddr, username, password string) (*Device, error) {
+	dev := new(Device)
+	dev.xaddr = xaddr
+	dev.endpoints = make(map[string]string)
+	dev.addEndpoint("Device", "http://"+xaddr+"/onvif/device_service")
+	dev.addEndpoint("Search", "http://"+xaddr+"/onvif/Search_service")
+	dev.addEndpoint("Recording", "http://"+xaddr+"/onvif/recording_service")
+	dev.addEndpoint("Replay", "http://"+xaddr+"/onvif/replay_service")
+
+	dev.Authenticate(username, password)
+
+	getCapabilities := device.GetCapabilities{Category: "All"}
+
+	resp, err := dev.CallMethod(getCapabilities, nil)
+	// fmt.Println(resp.Request.Host)
+	// fmt.Println(readResponse(resp))
+	if err != nil || resp.StatusCode != http.StatusOK {
+		return nil, errors.New(fmt.Sprintln("GetCapabilitier failed at:", xaddr, err))
+	}
+
+	dev.getSupportedServices(resp)
+	return dev, nil
+}
+
 func (dev *Device) addEndpoint(Key, Value string) {
 
 	//use lowCaseKey
