@@ -58,6 +58,7 @@ type AbsoluteFocus struct {
 	Speed    xsd.Float `xml:"onvif:Speed"`
 }
 
+//IntRectangle of zone
 type IntRectangle struct {
 	X      int `xml:"x,attr"`
 	Y      int `xml:"y,attr"`
