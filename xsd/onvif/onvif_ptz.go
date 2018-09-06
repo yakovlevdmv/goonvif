@@ -58,7 +58,6 @@ type AbsoluteFocus struct {
 	Speed    xsd.Float `xml:"onvif:Speed"`
 }
 
-//IntRectangle of zone
 type IntRectangle struct {
 	X      int `xml:"x,attr"`
 	Y      int `xml:"y,attr"`
@@ -300,31 +299,37 @@ type PTZConfigurationOptions struct {
 	Extension          PTZConfigurationOptions2
 }
 
+//PTZConfigurationOptions2 PTZConfigurationOptions2
 type PTZConfigurationOptions2 xsd.AnyType
 
+//PTZPreset for ptz presets
 type PTZPreset struct {
 	Token       ReferenceToken `xml:"token,attr"`
-	Name        Name
-	PTZPosition PTZVector
+	Name        []Name         `xml:"Name"`
+	PTZPosition []PTZVector    `xml:"PTZPosition"`
 }
 
+//PTZVector for ptz presets
 type PTZVector struct {
-	PanTilt Vector2D `xml:"onvif:PanTilt"`
-	Zoom    Vector1D `xml:"onvif:Zoom"`
+	PanTilt Vector2D `xml:"PanTilt"`
+	Zoom    Vector1D `xml:"Zoom"`
 }
 
+//PTZStatus for ptz
 type PTZStatus struct {
-	Position   PTZVector
-	MoveStatus PTZMoveStatus
+	Position   PTZVector     `xml:"Position"`
+	MoveStatus PTZMoveStatus `xml:"MoveStatus"`
 	Error      string
-	UtcTime    xsd.DateTime
+	UtcTime    xsd.DateTime `xml:"UtcTime"`
 }
 
+//PTZMoveStatus PTZMoveStatus
 type PTZMoveStatus struct {
-	PanTilt MoveStatus
-	Zoom    MoveStatus
+	PanTilt MoveStatus `xml:"PanTilt"`
+	Zoom    MoveStatus `xml:"Zoom"`
 }
 
+//PresetTour PresetTour
 type PresetTour struct {
 	Token             ReferenceToken                 `xml:"token,attr"`
 	Name              Name                           `xml:"onvif:Name"`
@@ -335,14 +340,17 @@ type PresetTour struct {
 	Extension         PTZPresetTourExtension         `xml:"onvif:Extension"`
 }
 
+//PTZPresetTourStatus PTZPresetTourStatus
 type PTZPresetTourStatus struct {
 	State           PTZPresetTourState           `xml:"onvif:State"`
 	CurrentTourSpot PTZPresetTourSpot            `xml:"onvif:CurrentTourSpot"`
 	Extension       PTZPresetTourStatusExtension `xml:"onvif:Extension"`
 }
 
+//PTZPresetTourState PTZPresetTourState
 type PTZPresetTourState xsd.String
 
+//PTZPresetTourSpot ..
 type PTZPresetTourSpot struct {
 	PresetDetail PTZPresetTourPresetDetail  `xml:"onvif:PresetDetail"`
 	Speed        PTZSpeed                   `xml:"onvif:Speed"`

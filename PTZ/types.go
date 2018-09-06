@@ -90,10 +90,12 @@ type GetPresets struct {
 	ProfileToken onvif.ReferenceToken `xml:"tptz:ProfileToken"`
 }
 
+//GetPresetsResponse return list of presets
 type GetPresetsResponse struct {
-	Preset onvif.PTZPreset
+	Presets []onvif.PTZPreset `xml:"Preset"`
 }
 
+//SetPreset SetPreset
 type SetPreset struct {
 	XMLName      string               `xml:"tptz:SetPreset"`
 	ProfileToken onvif.ReferenceToken `xml:"tptz:ProfileToken"`
