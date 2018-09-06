@@ -311,6 +311,12 @@ type PTZPreset struct {
 
 //PTZVector for ptz presets
 type PTZVector struct {
+	PanTilt Vector2D `xml:"onvif:PanTilt"`
+	Zoom    Vector1D `xml:"onvif:Zoom"`
+}
+
+//PTZVector2 for ptz presets of unmarshall
+type PTZVector2 struct {
 	PanTilt Vector2D `xml:"PanTilt"`
 	Zoom    Vector1D `xml:"Zoom"`
 }
