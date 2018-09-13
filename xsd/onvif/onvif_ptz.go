@@ -305,8 +305,8 @@ type PTZConfigurationOptions2 xsd.AnyType
 //PTZPreset for ptz presets
 type PTZPreset struct {
 	Token       ReferenceToken `xml:"token,attr"`
-	Name        []Name         `xml:"Name"`
-	PTZPosition []PTZVector    `xml:"PTZPosition"`
+	Name        Name         `xml:"Name"`
+	PTZPosition PTZVector    `xml:"PTZPosition"`
 }
 
 //PTZVector for ptz presets
