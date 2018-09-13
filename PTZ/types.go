@@ -85,6 +85,7 @@ type SendAuxiliaryCommandResponse struct {
 	AuxiliaryResponse onvif.AuxiliaryData
 }
 
+//GetPresets GetPresets
 type GetPresets struct {
 	XMLName      string               `xml:"tptz:GetPresets"`
 	ProfileToken onvif.ReferenceToken `xml:"tptz:ProfileToken"`
@@ -95,7 +96,7 @@ type GetPresetsResponse struct {
 	Presets []onvif.PTZPreset `xml:"Preset"`
 }
 
-//SetPreset SetPreset
+//SetPreset Set Preset with override
 type SetPreset struct {
 	XMLName      string               `xml:"tptz:SetPreset"`
 	ProfileToken onvif.ReferenceToken `xml:"tptz:ProfileToken"`
@@ -103,10 +104,20 @@ type SetPreset struct {
 	PresetToken  onvif.ReferenceToken `xml:"tptz:PresetToken"`
 }
 
-type SetPresetResponse struct {
-	PresetToken onvif.ReferenceToken
+//SetPresetNew only set new
+type SetPresetNew struct {
+	XMLName      string               `xml:"tptz:SetPreset"`
+	ProfileToken onvif.ReferenceToken `xml:"tptz:ProfileToken"`
+	PresetName   xsd.String           `xml:"tptz:PresetName"`
 }
 
+//SetPresetResponse ...
+type SetPresetResponse struct {
+	//A token to the Preset which has been set.
+	PresetToken onvif.ReferenceToken `xml:"PresetToken"`
+}
+
+//RemovePreset RemovePreset
 type RemovePreset struct {
 	XMLName      string               `xml:"tptz:RemovePreset"`
 	ProfileToken onvif.ReferenceToken `xml:"tptz:ProfileToken"`
