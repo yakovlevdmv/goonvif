@@ -1,4 +1,4 @@
-package WS_Discovery
+package wsdiscovery
 
 import (
 	"strings"
