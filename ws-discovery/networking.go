@@ -30,7 +30,6 @@ package wsdiscovery
 */
 
 import (
-	"errors"
 	"log"
 	"net"
 	"time"
@@ -69,8 +68,8 @@ func SendProbe(interfaceName string, scopes, types []string, namespaces map[stri
 
 }
 
-//SendProbeByIP SendProbe by ip address
-func SendProbeByIP(uuidv4RequestString, ipAddress string, scopes, types []string, namespaces map[string]string) ([]string, error) {
+//SendProbeByInterface SendProbe by ip address
+func SendProbeByInterface(uuidv4RequestString string, netInterface *net.Interface, scopes, types []string, namespaces map[string]string) ([]string, error) {
 
 	if uuidv4RequestString == "" {
 		uuidv4RequestString = uuid.Must(uuid.NewV4()).String()
@@ -81,7 +80,7 @@ func SendProbeByIP(uuidv4RequestString, ipAddress string, scopes, types []string
 
 	probeSOAP := buildProbeMessage(uuidv4RequestString, scopes, types, namespaces)
 	//fmt.Printf("probeSOAP: %s\n", probeSOAP)
-	return sendUDPMulticastByIP(probeSOAP.String(), ipAddress, "")
+	return sendUDPMulticastByInterface(probeSOAP.String(), netInterface, "")
 
 }
 
@@ -90,31 +89,29 @@ func sendUDPMulticast(msg string, interfaceName string) ([]string, error) {
 	data := []byte(msg)
 	iface, err := net.InterfaceByName(interfaceName)
 	if err != nil {
-		fmt.Println(err)
+		return nil, err
 	}
 	c, err := net.ListenPacket("udp4", "0.0.0.0:1024")
 	if err != nil {
-		fmt.Println(err)
+		return nil, err
 	}
 	defer c.Close()
 
 	group := net.IPv4(239, 255, 255, 250)
 	p := ipv4.NewPacketConn(c)
 	if err := p.JoinGroup(iface, &net.UDPAddr{IP: group}); err != nil {
-		fmt.Println(err)
+		return nil, err
 	}
+
+	if err := p.SetMulticastInterface(iface); err != nil {
+		log.Println("SetMulticastInterface: ", err)
+	}
+	p.SetMulticastTTL(multicastTTL)
 
 	dst := &net.UDPAddr{IP: group, Port: 3702}
-	for _, ifi := range []*net.Interface{iface} {
-		if err := p.SetMulticastInterface(ifi); err != nil {
-			log.Println("SetMulticastInterface: ", err)
-		}
-		p.SetMulticastTTL(multicastTTL)
-		if _, err := p.WriteTo(data, nil, dst); err != nil {
-			log.Println("SetMulticastTTL: ", err)
-		}
+	if _, err := p.WriteTo(data, nil, dst); err != nil {
+		log.Println("SetMulticastTTL: ", err)
 	}
-
 	if err := p.SetReadDeadline(time.Now().Add(readDuration)); err != nil {
 		log.Fatal(err)
 	}
@@ -131,54 +128,48 @@ func sendUDPMulticast(msg string, interfaceName string) ([]string, error) {
 	return result, nil
 }
 
-func sendUDPMulticastByIP(msg string, ipAddress, port string) ([]string, error) {
+func sendUDPMulticastByInterface(msg string, iface *net.Interface, port string) ([]string, error) {
 	var result []string
+	data := []byte(msg)
 
-	if ipAddress == "" {
-		return nil, errors.New("must have a ip address")
-	}
 	if port == "" {
 		port = "1024"
 	}
-
-	hostSocket := "0.0.0.0:" + port
-	localAddress, err := net.ResolveUDPAddr("udp4", hostSocket)
+	c, err := net.ListenPacket("udp4", "0.0.0.0:"+port)
 	if err != nil {
-		return []string{}, err
+		return nil, err
 	}
+	defer c.Close()
 
-	// Create UDP connection to listen for respond from matching device
-	conn, err := net.ListenUDP("udp", localAddress)
-	defer conn.Close()
-	if err != nil {
-		return []string{}, err
-	}
-	if err := conn.SetReadDeadline(time.Now().Add(readDuration)); err != nil {
-		return []string{}, err
+	group := net.IPv4(239, 255, 255, 250)
+	p := ipv4.NewPacketConn(c)
+	if err := p.JoinGroup(iface, &net.UDPAddr{IP: group}); err != nil {
+		return nil, err
 	}
 
-	multicastAddress, err := net.ResolveUDPAddr("udp4", "239.255.255.250:3702")
-	if err != nil {
-		return []string{}, err
+	if err := p.SetMulticastInterface(iface); err != nil {
+		log.Println("SetMulticastInterface: ", err)
 	}
-	// Send WS-Discovery request to multicast address
-	_, err = conn.WriteToUDP([]byte(msg), multicastAddress)
-	if err != nil {
-		return []string{}, err
+	if err := p.SetMulticastTTL(multicastTTL); err != nil {
+		log.Println("SetMulticastTTL: ", err)
+	}
+
+	dst := &net.UDPAddr{IP: group, Port: 3702}
+	if _, err := p.WriteTo(data, nil, dst); err != nil {
+		log.Println("WriteTo : ", err)
+	}
+	if err := p.SetReadDeadline(time.Now().Add(readDuration)); err != nil {
+		log.Fatal(err)
 	}
 
 	for {
-		buffer := make([]byte, bufSize)
-		n, _, err := conn.ReadFromUDP(buffer)
+		b := make([]byte, bufSize)
+		n, _, _, err := p.ReadFrom(b)
 		if err != nil {
-			if udpErr, ok := err.(net.Error); ok && udpErr.Timeout() {
-				log.Println("ReadFrom UDP Buffer: ", err)
-				break
-			} else {
-				return result, err
-			}
+			log.Println("ReadFrom UDP Buffer: ", err)
+			break
 		}
-		result = append(result, string(buffer[0:n]))
+		result = append(result, string(b[0:n]))
 	}
 	return result, nil
 }

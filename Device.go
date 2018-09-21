@@ -195,7 +195,7 @@ func buildMethodSOAP(msg string) (gosoap.SoapMessage, error) {
 }
 
 //getEndpoint functions get the target service endpoint in a better way
-func (dev Device) getEndpoint(endpoint string) (string, error) {
+func (dev *Device) getEndpoint(endpoint string) (string, error) {
 	// common condition, endpointMark in map we use this.
 	if endpointURL, bFound := dev.endpoints[endpoint]; bFound {
 		return endpointURL, nil
@@ -216,7 +216,7 @@ func (dev Device) getEndpoint(endpoint string) (string, error) {
 
 //CallMethod functions call an method, defined <method> struct.
 //You should use Authenticate method to call authorized requests.
-func (dev Device) CallMethod(method interface{}, headerFileds map[string]string) (*http.Response, error) {
+func (dev *Device) CallMethod(method interface{}, headerFileds map[string]string) (*http.Response, error) {
 	pkgPath := strings.Split(reflect.TypeOf(method).PkgPath(), "/")
 	pkg := strings.ToLower(pkgPath[len(pkgPath)-1])
 
@@ -228,7 +228,7 @@ func (dev Device) CallMethod(method interface{}, headerFileds map[string]string)
 }
 
 //CallMethod functions call an method, defined <method> struct with authentication data
-func (dev Device) callMethodDo(endpoint string, method interface{}, headerFileds map[string]string) (*http.Response, error) {
+func (dev *Device) callMethodDo(endpoint string, method interface{}, headerFileds map[string]string) (*http.Response, error) {
 	/*
 		Converting <method> struct to xml string representation
 	*/
@@ -271,4 +271,30 @@ func (dev Device) callMethodDo(endpoint string, method interface{}, headerFileds
 		Sending request and returns the response
 	*/
 	return networking.SendSoap(endpoint, soap.String())
+}
+
+//GetXaddr GetXaddr
+func (dev *Device) GetXaddr() string {
+	return dev.xaddr
+}
+
+//GetIPAddress GetIpAddress
+func (dev *Device) GetIPAddress() string {
+	return dev.ipaddress
+}
+
+//GetPort GetIpAddress
+func (dev *Device) GetPort() int {
+	return dev.port
+}
+
+//GetUser GetUserAuth
+func (dev *Device) GetUser() string {
+
+	return dev.login
+}
+
+//GetPassword GetPassword
+func (dev *Device) GetPassword() string {
+	return dev.password
 }

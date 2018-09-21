@@ -1,6 +1,8 @@
 package wsdiscovery
 
 import (
+	"regexp"
+	"strconv"
 	"strings"
 
 	"github.com/beevik/etree"
@@ -81,4 +83,26 @@ func buildProbeMessage(uuidV4 string, scopes, types []string, nmsp map[string]st
 	probeMessage.AddBodyContent(probe)
 
 	return probeMessage
+}
+
+//ExtractPortAndIP ExtractPortAndIP
+func ExtractPortAndIP(urlString string) (ipaddr string, port int) {
+
+	stringTofind := strings.ToLower(urlString)
+	format := `^(?:[a-z][a-z0-9+\-.]*://)?((?:\d+\.){3}(?:\d+))(?::?)(\d+)?(/onvif.*)`
+
+	reg := regexp.MustCompile(format)
+	out := reg.FindStringSubmatch(stringTofind)
+
+	ipaddr = out[1]
+
+	converedPort, err := strconv.Atoi(out[2])
+	if err != nil || converedPort <= 0 {
+		port = 80
+	} else {
+		port = converedPort
+	}
+
+	return ipaddr, port
+
 }
