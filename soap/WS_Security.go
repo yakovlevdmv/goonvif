@@ -1,12 +1,13 @@
-package gosoap
+package soap
 
 import (
 	"crypto/sha1"
 	"encoding/base64"
 	"encoding/hex"
 	"encoding/xml"
-	"github.com/satori/go.uuid"
 	"time"
+
+	uuid "github.com/satori/go.uuid"
 )
 
 /*************************

@@ -15,7 +15,7 @@ import (
 	"github.com/larryhu/goonvif"
 	"github.com/larryhu/goonvif/discover"
 	"github.com/larryhu/goonvif/networking"
-	gosoap "github.com/larryhu/goonvif/soap"
+	"github.com/larryhu/goonvif/soap"
 )
 
 func RunApi() {
@@ -141,7 +141,7 @@ func callNecessaryMethod(serviceName, methodName, acceptedData, username, passwo
 		return "", err
 	}
 
-	soap := gosoap.NewEmptySOAP()
+	soap := soap.NewEmptySOAP()
 	soap.AddStringBodyContent(*resp)
 	soap.AddRootNamespaces(goonvif.Xlmns)
 	soap.AddWSSecurity(username, password)

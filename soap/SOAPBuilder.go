@@ -1,4 +1,4 @@
-package gosoap
+package soap
 
 import (
 	"encoding/xml"

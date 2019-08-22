@@ -4,16 +4,16 @@ import (
 	"strings"
 
 	"github.com/beevik/etree"
-	gosoap "github.com/larryhu/goonvif/soap"
+	"github.com/larryhu/goonvif/soap"
 )
 
-func buildProbeMessage(uuidV4 string, scopes, types []string, nmsp map[string]string) gosoap.SoapMessage {
+func buildProbeMessage(uuidV4 string, scopes, types []string, nmsp map[string]string) soap.SoapMessage {
 	//Список namespace
 	namespaces := make(map[string]string)
 	namespaces["a"] = "http://schemas.xmlsoap.org/ws/2004/08/addressing"
 	//namespaces["d"] = "http://schemas.xmlsoap.org/ws/2005/04/discovery"
 
-	probeMessage := gosoap.NewEmptySOAP()
+	probeMessage := soap.NewEmptySOAP()
 
 	probeMessage.AddRootNamespaces(namespaces)
 	//if len(nmsp) != 0 {

@@ -2,7 +2,6 @@ package goonvif
 
 import (
 	"encoding/xml"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -11,14 +10,14 @@ import (
 	"strconv"
 	"strings"
 
-	Device "github.com/larryhu/goonvif/Device"
+	"github.com/beevik/etree"
+	Device "github.com/larryhu/goonvif/device"
 	"github.com/larryhu/goonvif/discover"
 	"github.com/larryhu/goonvif/networking"
-	gosoap "github.com/larryhu/goonvif/soap"
-
-	"github.com/beevik/etree"
+	"github.com/larryhu/goonvif/soap"
 )
 
+// Xlmns xlmns
 var Xlmns = map[string]string{
 	"onvif":   "http://www.onvif.org/ver10/schema",
 	"tds":     "http://www.onvif.org/ver10/device/wsdl",
@@ -94,29 +93,24 @@ func readResponse(resp *http.Response) string {
 	return string(b)
 }
 
-func GetAvailableDevicesAtSpecificEthernetInterface(interfaceName string) []device {
+// GetAvailableDevicesAtSpecificEthernetInterface available devices
+func GetAvailableDevicesAtSpecificEthernetInterface(interfaceName string) ([]device, error) {
 	/*
 		Call an WS-Discovery Probe Message to Discover NVT type Devices
 	*/
 	devices := discover.SendProbe(interfaceName, nil, []string{"dn:" + NVT.String()}, map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"})
 	nvtDevices := make([]device, 0)
-	////fmt.Println(devices)
 	for _, j := range devices {
 		doc := etree.NewDocument()
 		if err := doc.ReadFromString(j); err != nil {
-			fmt.Errorf("%s", err.Error())
-			return nil
+			return nil, err
 		}
-		////fmt.Println(j)
 		endpoints := doc.Root().FindElements("./Body/ProbeMatches/ProbeMatch/XAddrs")
 		for _, xaddr := range endpoints {
-			//fmt.Println(xaddr.Tag,strings.Split(strings.Split(xaddr.Text(), " ")[0], "/")[2] )
 			xaddr := strings.Split(strings.Split(xaddr.Text(), " ")[0], "/")[2]
-			fmt.Println(xaddr)
 			c := 0
 			for c = 0; c < len(nvtDevices); c++ {
 				if nvtDevices[c].xaddr == xaddr {
-					fmt.Println(nvtDevices[c].xaddr, "==", xaddr)
 					break
 				}
 			}
@@ -124,20 +118,13 @@ func GetAvailableDevicesAtSpecificEthernetInterface(interfaceName string) []devi
 				continue
 			}
 			dev, err := NewDevice(strings.Split(xaddr, " ")[0])
-			//fmt.Println(dev)
 			if err != nil {
-				fmt.Println("Error", xaddr)
-				fmt.Println(err)
-				continue
-			} else {
-				////fmt.Println(dev)
-				nvtDevices = append(nvtDevices, *dev)
+				return nil, fmt.Errorf("error %s %s", xaddr, err)
 			}
+			nvtDevices = append(nvtDevices, *dev)
 		}
-		////fmt.Println(j)
-		//nvtDevices[i] = NewDevice()
 	}
-	return nvtDevices
+	return nvtDevices, nil
 }
 
 func (dev *device) getSupportedServices(resp *http.Response) {
@@ -168,7 +155,7 @@ func NewDevice(xaddr string) (*device, error) {
 
 	resp, err := dev.CallMethod(getCapabilities)
 	if err != nil || resp.StatusCode != http.StatusOK {
-		return nil, errors.New("camera is not available at " + xaddr + " or it does not support ONVIF services")
+		return nil, fmt.Errorf("camera is not available at %s or it does not support ONVIF services", xaddr)
 	}
 
 	dev.getSupportedServices(resp)
@@ -193,7 +180,7 @@ func (dev *device) GetEndpoint(name string) string {
 	return dev.endpoints[name]
 }
 
-func buildMethodSOAP(msg []byte) (gosoap.SoapMessage, error) {
+func buildMethodSOAP(msg []byte) (soap.SoapMessage, error) {
 	doc := etree.NewDocument()
 	if err := doc.ReadFromBytes(msg); err != nil {
 
@@ -201,7 +188,7 @@ func buildMethodSOAP(msg []byte) (gosoap.SoapMessage, error) {
 	}
 	element := doc.Root()
 
-	soap := gosoap.NewEmptySOAP()
+	soap := soap.NewEmptySOAP()
 	soap.AddBodyContent(element)
 	//soap.AddRootNamespace("onvif", "http://www.onvif.org/ver10/device/wsdl")
 
