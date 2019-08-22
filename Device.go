@@ -11,11 +11,12 @@ import (
 	"strconv"
 	"strings"
 
+	Device "./Device"
+	WS_Discovery "./WS-Discovery"
+	"./networking"
+	gosoap "./soap"
+
 	"github.com/beevik/etree"
-	WS_Discovery "github.com/yakovlevdmv/WS-Discovery"
-	"github.com/yakovlevdmv/goonvif/Device"
-	"github.com/yakovlevdmv/goonvif/networking"
-	"github.com/yakovlevdmv/gosoap"
 )
 
 var Xlmns = map[string]string{
