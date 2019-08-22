@@ -1,4 +1,4 @@
-package PTZ
+package ptz
 
 import (
 	"github.com/larryhu/goonvif/xsd"

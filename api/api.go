@@ -10,11 +10,12 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/larryhu/goonvif/WS-Discovery"
-	"github.com/larryhu/goonvif/networking"
-	gosoap "github.com/larryhu/goonvif/soap"
 	"github.com/beevik/etree"
 	"github.com/gin-gonic/gin"
+	"github.com/larryhu/goonvif"
+	"github.com/larryhu/goonvif/discover"
+	"github.com/larryhu/goonvif/networking"
+	gosoap "github.com/larryhu/goonvif/soap"
 )
 
 func RunApi() {
@@ -49,7 +50,7 @@ func RunApi() {
 		interfaceName := context.GetHeader("interface")
 
 		var response = "["
-		devices := WS_Discovery.SendProbe(interfaceName, nil, []string{"dn:NetworkVideoTransmitter"}, map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"})
+		devices := discover.SendProbe(interfaceName, nil, []string{"dn:NetworkVideoTransmitter"}, map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"})
 		for _, j := range devices {
 			doc := etree.NewDocument()
 			if err := doc.ReadFromString(j); err != nil {
@@ -142,10 +143,10 @@ func callNecessaryMethod(serviceName, methodName, acceptedData, username, passwo
 
 	soap := gosoap.NewEmptySOAP()
 	soap.AddStringBodyContent(*resp)
-	soap.AddRootNamespaces(Xlmns)
+	soap.AddRootNamespaces(goonvif.Xlmns)
 	soap.AddWSSecurity(username, password)
 
-	servResp, err := networking.SendSoap(endpoint, soap.String())
+	servResp, err := networking.SendSoap(endpoint, soap.Bytes())
 	if err != nil {
 		return "", err
 	}
@@ -159,7 +160,7 @@ func callNecessaryMethod(serviceName, methodName, acceptedData, username, passwo
 }
 
 func getEndpoint(service, xaddr string) (string, error) {
-	dev, err := NewDevice(xaddr)
+	dev, err := goonvif.NewDevice(xaddr)
 	if err != nil {
 		return "", err
 	}

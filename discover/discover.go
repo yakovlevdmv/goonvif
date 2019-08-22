@@ -1,10 +1,10 @@
-package WS_Discovery
+package discover
 
 import (
 	"strings"
 
-	gosoap "github.com/larryhu/goonvif/soap"
 	"github.com/beevik/etree"
+	gosoap "github.com/larryhu/goonvif/soap"
 )
 
 func buildProbeMessage(uuidV4 string, scopes, types []string, nmsp map[string]string) gosoap.SoapMessage {

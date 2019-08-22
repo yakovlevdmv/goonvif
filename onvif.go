@@ -12,7 +12,7 @@ import (
 	"strings"
 
 	Device "github.com/larryhu/goonvif/Device"
-	WS_Discovery "github.com/larryhu/goonvif/WS-Discovery"
+	"github.com/larryhu/goonvif/discover"
 	"github.com/larryhu/goonvif/networking"
 	gosoap "github.com/larryhu/goonvif/soap"
 
@@ -98,7 +98,7 @@ func GetAvailableDevicesAtSpecificEthernetInterface(interfaceName string) []devi
 	/*
 		Call an WS-Discovery Probe Message to Discover NVT type Devices
 	*/
-	devices := WS_Discovery.SendProbe(interfaceName, nil, []string{"dn:" + NVT.String()}, map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"})
+	devices := discover.SendProbe(interfaceName, nil, []string{"dn:" + NVT.String()}, map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"})
 	nvtDevices := make([]device, 0)
 	////fmt.Println(devices)
 	for _, j := range devices {
@@ -146,7 +146,6 @@ func (dev *device) getSupportedServices(resp *http.Response) {
 	data, _ := ioutil.ReadAll(resp.Body)
 
 	if err := doc.ReadFromBytes(data); err != nil {
-		//log.Println(err.Error())
 		return
 	}
 	services := doc.FindElements("./Envelope/Body/GetCapabilitiesResponse/Capabilities/*/XAddr")
@@ -168,10 +167,7 @@ func NewDevice(xaddr string) (*device, error) {
 	getCapabilities := Device.GetCapabilities{Category: "All"}
 
 	resp, err := dev.CallMethod(getCapabilities)
-	//fmt.Println(resp.Request.Host)
-	//fmt.Println(readResponse(resp))
 	if err != nil || resp.StatusCode != http.StatusOK {
-		//panic(errors.New("camera is not available at " + xaddr + " or it does not support ONVIF services"))
 		return nil, errors.New("camera is not available at " + xaddr + " or it does not support ONVIF services")
 	}
 
@@ -197,10 +193,9 @@ func (dev *device) GetEndpoint(name string) string {
 	return dev.endpoints[name]
 }
 
-func buildMethodSOAP(msg string) (gosoap.SoapMessage, error) {
+func buildMethodSOAP(msg []byte) (gosoap.SoapMessage, error) {
 	doc := etree.NewDocument()
-	if err := doc.ReadFromString(msg); err != nil {
-		//log.Println("Got error")
+	if err := doc.ReadFromBytes(msg); err != nil {
 
 		return "", err
 	}
@@ -222,74 +217,33 @@ func (dev device) CallMethod(method interface{}) (*http.Response, error) {
 	var endpoint string
 	switch pkg {
 	case "Device":
-		endpoint = dev.endpoints["Device"]
 	case "Event":
-		endpoint = dev.endpoints["Event"]
 	case "Imaging":
-		endpoint = dev.endpoints["Imaging"]
 	case "Media":
-		endpoint = dev.endpoints["Media"]
 	case "PTZ":
-		endpoint = dev.endpoints["PTZ"]
+		endpoint = dev.endpoints[pkg]
+	default:
+		return nil, fmt.Errorf("Endpoint not found [%s]", pkg)
 	}
 
-	//TODO: Get endpoint automatically
-	if dev.login != "" && dev.password != "" {
-		return dev.callAuthorizedMethod(endpoint, method)
-	} else {
-		return dev.callNonAuthorizedMethod(endpoint, method)
-	}
-}
-
-//CallNonAuthorizedMethod functions call an method, defined <method> struct without authentication data
-func (dev device) callNonAuthorizedMethod(endpoint string, method interface{}) (*http.Response, error) {
-	//TODO: Get endpoint automatically
-	/*
-		Converting <method> struct to xml string representation
-	*/
-	output, err := xml.MarshalIndent(method, "  ", "    ")
-	if err != nil {
-		//log.Printf("error: %v\n", err.Error())
-		return nil, err
-	}
-
-	/*
-		Build an SOAP request with <method>
-	*/
-	soap, err := buildMethodSOAP(string(output))
-	if err != nil {
-		//log.Printf("error: %v\n", err)
-		return nil, err
-	}
-
-	/*
-		Adding namespaces
-	*/
-	soap.AddRootNamespaces(Xlmns)
-
-	/*
-		Sending request and returns the response
-	*/
-	return networking.SendSoap(endpoint, soap.String())
+	return dev.callMethod(endpoint, method)
 }
 
 //CallMethod functions call an method, defined <method> struct with authentication data
-func (dev device) callAuthorizedMethod(endpoint string, method interface{}) (*http.Response, error) {
+func (dev device) callMethod(endpoint string, method interface{}) (*http.Response, error) {
 	/*
 		Converting <method> struct to xml string representation
 	*/
 	output, err := xml.MarshalIndent(method, "  ", "    ")
 	if err != nil {
-		//log.Printf("error: %v\n", err.Error())
 		return nil, err
 	}
 
 	/*
 		Build an SOAP request with <method>
 	*/
-	soap, err := buildMethodSOAP(string(output))
+	soap, err := buildMethodSOAP(output)
 	if err != nil {
-		//log.Printf("error: %v\n", err.Error())
 		return nil, err
 	}
 
@@ -297,10 +251,13 @@ func (dev device) callAuthorizedMethod(endpoint string, method interface{}) (*ht
 		Adding namespaces and WS-Security headers
 	*/
 	soap.AddRootNamespaces(Xlmns)
-	soap.AddWSSecurity(dev.login, dev.password)
+
+	if dev.login != "" && dev.password != "" {
+		soap.AddWSSecurity(dev.login, dev.password)
+	}
 
 	/*
 		Sending request and returns the response
 	*/
-	return networking.SendSoap(endpoint, soap.String())
+	return networking.SendSoap(endpoint, soap.Bytes())
 }

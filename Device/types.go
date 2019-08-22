@@ -1,4 +1,4 @@
-package Device
+package device
 
 import (
 	"github.com/larryhu/goonvif/xsd"

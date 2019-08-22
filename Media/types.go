@@ -1,4 +1,4 @@
-package Media
+package media
 
 import (
 	"github.com/larryhu/goonvif/xsd"

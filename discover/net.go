@@ -7,20 +7,21 @@
  * permission of Palanjyan Zhorzhik
  *******************************************************/
 
-package WS_Discovery
+package discover
 
 import (
 	"fmt"
-	"net"
-	"golang.org/x/net/ipv4"
-	"time"
 	"log"
+	"net"
+	"time"
+
 	"github.com/satori/go.uuid"
+	"golang.org/x/net/ipv4"
 )
 
-const bufSize  = 8192
+const bufSize = 8192
 
-func SendProbe(interfaceName string, scopes, types []string, namespaces map[string]string) []string{
+func SendProbe(interfaceName string, scopes, types []string, namespaces map[string]string) []string {
 	// Creating UUID Version 4
 	uuidV4 := uuid.Must(uuid.NewV4())
 	//fmt.Printf("UUIDv4: %s\n", uuidV4)
@@ -32,7 +33,7 @@ func SendProbe(interfaceName string, scopes, types []string, namespaces map[stri
 
 }
 
-func sendUDPMulticast (msg string, interfaceName string) []string {
+func sendUDPMulticast(msg string, interfaceName string) []string {
 	var result []string
 	data := []byte(msg)
 	iface, err := net.InterfaceByName(interfaceName)

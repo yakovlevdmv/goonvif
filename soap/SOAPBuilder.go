@@ -1,35 +1,46 @@
 package gosoap
 
 import (
-	"github.com/beevik/etree"
-	"log"
 	"encoding/xml"
+	"log"
+
+	"github.com/beevik/etree"
 )
 
+// SoapMessage  SOAP Message
 type SoapMessage string
 
+// NewEmptySOAP new empty SOAP
 func NewEmptySOAP() SoapMessage {
 	doc := buildSoapRoot()
 	//doc.IndentTabs()
 
-	res, _ := doc.WriteToString();
+	res, _ := doc.WriteToString()
 
-	return  SoapMessage(res)
+	return SoapMessage(res)
 }
 
+// NewSOAP new SOAP
 func NewSOAP(headContent []*etree.Element, bodyContent []*etree.Element, namespaces map[string]string) SoapMessage {
 	doc := buildSoapRoot()
 	//doc.IndentTabs()
 
-	res, _ := doc.WriteToString();
+	res, _ := doc.WriteToString()
 
-	return  SoapMessage(res)
+	return SoapMessage(res)
 }
 
+// String to String
 func (msg SoapMessage) String() string {
 	return string(msg)
 }
 
+// Bytes []byte
+func (msg SoapMessage) Bytes() []byte {
+	return []byte(msg)
+}
+
+// StringIndent string indent
 func (msg SoapMessage) StringIndent() string {
 	doc := etree.NewDocument()
 
@@ -40,10 +51,10 @@ func (msg SoapMessage) StringIndent() string {
 	doc.IndentTabs()
 	res, _ := doc.WriteToString()
 
-
 	return res
 }
 
+// Body body
 func (msg SoapMessage) Body() string {
 
 	doc := etree.NewDocument()
@@ -60,7 +71,8 @@ func (msg SoapMessage) Body() string {
 	return res
 }
 
-func (msg *SoapMessage) AddStringBodyContent(data string)  {
+// AddStringBodyContent AddStringBodyContent
+func (msg *SoapMessage) AddStringBodyContent(data string) {
 	doc := etree.NewDocument()
 
 	if err := doc.ReadFromString(data); err != nil {
@@ -83,7 +95,8 @@ func (msg *SoapMessage) AddStringBodyContent(data string)  {
 	*msg = SoapMessage(res)
 }
 
-func (msg *SoapMessage) AddBodyContent(element *etree.Element)  {
+// AddBodyContent AddBodyContent
+func (msg *SoapMessage) AddBodyContent(element *etree.Element) {
 	doc := etree.NewDocument()
 	if err := doc.ReadFromString(msg.String()); err != nil {
 		log.Println(err.Error())
@@ -98,6 +111,7 @@ func (msg *SoapMessage) AddBodyContent(element *etree.Element)  {
 	*msg = SoapMessage(res)
 }
 
+// AddBodyContents AddBodyContents
 func (msg *SoapMessage) AddBodyContents(elements []*etree.Element) {
 	doc := etree.NewDocument()
 	if err := doc.ReadFromString(msg.String()); err != nil {
@@ -118,6 +132,7 @@ func (msg *SoapMessage) AddBodyContents(elements []*etree.Element) {
 	*msg = SoapMessage(res)
 }
 
+// AddStringHeaderContent AddStringHeaderContent
 func (msg *SoapMessage) AddStringHeaderContent(data string) error {
 	doc := etree.NewDocument()
 
@@ -145,6 +160,7 @@ func (msg *SoapMessage) AddStringHeaderContent(data string) error {
 	return nil
 }
 
+// AddHeaderContent AddHeaderContent
 func (msg *SoapMessage) AddHeaderContent(element *etree.Element) {
 	doc := etree.NewDocument()
 	if err := doc.ReadFromString(msg.String()); err != nil {
@@ -160,6 +176,7 @@ func (msg *SoapMessage) AddHeaderContent(element *etree.Element) {
 	*msg = SoapMessage(res)
 }
 
+// AddHeaderContents AddHeaderContents
 func (msg *SoapMessage) AddHeaderContents(elements []*etree.Element) {
 	doc := etree.NewDocument()
 	if err := doc.ReadFromString(msg.String()); err != nil {
@@ -180,13 +197,14 @@ func (msg *SoapMessage) AddHeaderContents(elements []*etree.Element) {
 	*msg = SoapMessage(res)
 }
 
+// AddRootNamespace AddRootNamespace
 func (msg *SoapMessage) AddRootNamespace(key, value string) {
 	doc := etree.NewDocument()
 	if err := doc.ReadFromString(msg.String()); err != nil {
 		log.Println(err.Error())
 	}
 
-	doc.Root().CreateAttr("xmlns:" + key, value)
+	doc.Root().CreateAttr("xmlns:"+key, value)
 
 	//doc.IndentTabs()
 	res, _ := doc.WriteToString()
@@ -194,28 +212,28 @@ func (msg *SoapMessage) AddRootNamespace(key, value string) {
 	*msg = SoapMessage(res)
 }
 
+// AddRootNamespaces AddRootNamespaces
 func (msg *SoapMessage) AddRootNamespaces(namespaces map[string]string) {
 	for key, value := range namespaces {
 		msg.AddRootNamespace(key, value)
 	}
 
 	/*
-	doc := etree.NewDocument()
-	if err := doc.ReadFromString(msg.String()); err != nil {
-		//log.Println(err.Error())
-		return err
-	}
+		doc := etree.NewDocument()
+		if err := doc.ReadFromString(msg.String()); err != nil {
+			//log.Println(err.Error())
+			return err
+		}
 
-	for key, value := range namespaces {
-		doc.Root().CreateAttr("xmlns:" + key, value)
-	}
+		for key, value := range namespaces {
+			doc.Root().CreateAttr("xmlns:" + key, value)
+		}
 
-	doc.IndentTabs()
-	res, _ := doc.WriteToString()
+		doc.IndentTabs()
+		res, _ := doc.WriteToString()
 
-	*msg = SoapMessage(res)*/
+		*msg = SoapMessage(res)*/
 }
-
 
 func buildSoapRoot() *etree.Document {
 	doc := etree.NewDocument()
@@ -231,6 +249,7 @@ func buildSoapRoot() *etree.Document {
 	return doc
 }
 
+// AddWSSecurity AddWSSecurity
 func (msg *SoapMessage) AddWSSecurity(username, password string) {
 	//doc := etree.NewDocument()
 	//if err := doc.ReadFromString(msg.String()); err != nil {
@@ -238,13 +257,13 @@ func (msg *SoapMessage) AddWSSecurity(username, password string) {
 	//}
 
 	/*
-	Getting an WS-Security struct representation
-	 */
+		Getting an WS-Security struct representation
+	*/
 	auth := NewSecurity(username, password)
 
 	/*
-	Adding WS-Security namespaces to root element of SOAP message
-	 */
+		Adding WS-Security namespaces to root element of SOAP message
+	*/
 	//msg.AddRootNamespace("wsse", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext1.0.xsd")
 	//msg.AddRootNamespace("wsu", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility1.0.xsd")
 
@@ -255,8 +274,8 @@ func (msg *SoapMessage) AddWSSecurity(username, password string) {
 	}
 
 	/*
-	Adding WS-Security struct to SOAP header
-	 */
+		Adding WS-Security struct to SOAP header
+	*/
 	msg.AddStringHeaderContent(string(soapReq))
 
 	//doc.IndentTabs()
