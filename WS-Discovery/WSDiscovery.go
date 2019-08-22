@@ -3,7 +3,7 @@ package WS_Discovery
 import (
 	"strings"
 
-	gosoap "./soap"
+	gosoap "github.com/larryhu/goonvif/soap"
 	"github.com/beevik/etree"
 )
 

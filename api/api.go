@@ -10,9 +10,9 @@ import (
 	"regexp"
 	"strings"
 
-	"./WS-Discovery"
-	"./networking"
-	gosoap "./soap"
+	"github.com/larryhu/goonvif/WS-Discovery"
+	"github.com/larryhu/goonvif/networking"
+	gosoap "github.com/larryhu/goonvif/soap"
 	"github.com/beevik/etree"
 	"github.com/gin-gonic/gin"
 )

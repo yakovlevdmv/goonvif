@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	iso8601 "./iso8601"
+	iso8601 "github.com/larryhu/goonvif/iso8601"
 )
 
 /*

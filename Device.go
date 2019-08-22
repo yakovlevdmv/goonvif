@@ -11,10 +11,10 @@ import (
 	"strconv"
 	"strings"
 
-	Device "./Device"
-	WS_Discovery "./WS-Discovery"
-	"./networking"
-	gosoap "./soap"
+	Device "github.com/larryhu/goonvif/Device"
+	WS_Discovery "github.com/larryhu/goonvif/WS-Discovery"
+	"github.com/larryhu/goonvif/networking"
+	gosoap "github.com/larryhu/goonvif/soap"
 
 	"github.com/beevik/etree"
 )
