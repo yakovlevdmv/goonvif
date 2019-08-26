@@ -15,12 +15,13 @@ import (
 	"net"
 	"time"
 
-	"github.com/satori/go.uuid"
+	uuid "github.com/satori/go.uuid"
 	"golang.org/x/net/ipv4"
 )
 
 const bufSize = 8192
 
+// SendProbe SendProbe
 func SendProbe(interfaceName string, scopes, types []string, namespaces map[string]string) []string {
 	// Creating UUID Version 4
 	uuidV4 := uuid.Must(uuid.NewV4())
@@ -29,11 +30,11 @@ func SendProbe(interfaceName string, scopes, types []string, namespaces map[stri
 	probeSOAP := buildProbeMessage(uuidV4.String(), scopes, types, namespaces)
 	//probeSOAP = `<?xml version="1.0" encoding="UTF-8"?><Envelope xmlns="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://schemas.xmlsoap.org/ws/2004/08/addressing"><Header><a:Action mustUnderstand="1">http://schemas.xmlsoap.org/ws/2005/04/discovery/Probe</a:Action><a:MessageID>uuid:78a2ed98-bc1f-4b08-9668-094fcba81e35</a:MessageID><a:ReplyTo><a:Address>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</a:Address></a:ReplyTo><a:To mustUnderstand="1">urn:schemas-xmlsoap-org:ws:2005:04:discovery</a:To></Header><Body><Probe xmlns="http://schemas.xmlsoap.org/ws/2005/04/discovery"><d:Types xmlns:d="http://schemas.xmlsoap.org/ws/2005/04/discovery" xmlns:dp0="http://www.onvif.org/ver10/network/wsdl">dp0:NetworkVideoTransmitter</d:Types></Probe></Body></Envelope>`
 
-	return sendUDPMulticast(probeSOAP.String(), interfaceName)
+	return sendUDPMulticast(probeSOAP.String(), interfaceName, time.Second*3)
 
 }
 
-func sendUDPMulticast(msg string, interfaceName string) []string {
+func sendUDPMulticast(msg, interfaceName string, timeout time.Duration) []string {
 	var result []string
 	data := []byte(msg)
 	iface, err := net.InterfaceByName(interfaceName)
@@ -64,7 +65,7 @@ func sendUDPMulticast(msg string, interfaceName string) []string {
 		}
 	}
 
-	if err := p.SetReadDeadline(time.Now().Add(time.Second * 1)); err != nil {
+	if err := p.SetReadDeadline(time.Now().Add(timeout)); err != nil {
 		log.Fatal(err)
 	}
 
