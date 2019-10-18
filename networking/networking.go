@@ -1,17 +1,21 @@
 package networking
 
 import (
-	"net/http"
 	"bytes"
+	"net/http"
+	"time"
 )
 
-func SendSoap(endpoint, message string) (*http.Response, error) {
-	httpClient := new(http.Client)
+// SendSoap send soap message
+func SendSoap(endpoint string, message []byte) (*http.Response, error) {
+	return SendSoapWithTimeout(endpoint, message, time.Second*3)
+}
 
-	resp, err := httpClient.Post(endpoint, "application/soap+xml; charset=utf-8", bytes.NewBufferString(message))
-	if err != nil {
-		return resp, err
+// SendSoapWithTimeout send soap message with timeOut
+func SendSoapWithTimeout(endpoint string, message []byte, timeout time.Duration) (*http.Response, error) {
+	httpClient := &http.Client{
+		Timeout: timeout,
 	}
 
-	return resp,nil
+	return httpClient.Post(endpoint, "application/soap+xml; charset=utf-8", bytes.NewReader(message))
 }
